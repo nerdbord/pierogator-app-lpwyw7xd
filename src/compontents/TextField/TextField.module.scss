@@ -23,8 +23,8 @@
   border: none;
   background: var(--Gray-background, #f9f9f9);
   resize: none;
-  min-height: 10px;
   height: auto;
+  width: 100%;
   &::placeholder {
     color: var(--Gray-dark, #969696);
   }
