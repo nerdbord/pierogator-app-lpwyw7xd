@@ -7,6 +7,29 @@ import { Button } from '@/components/Button/Button'
 import Loader from '@/components/Loader/Loader'
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import useDumplingStore from '@/store/useDumplingStore'
+import { Accordion } from '@/components/Accordion/Accordion'
+
+const sections = [
+  {
+    title: "Ciasto",
+    items: [
+      "2 szklanki mąki pszennej",
+      "1/2 szklanki ciepłej wody",
+      "1 łyżka oleju",
+      "Szczypta soli",
+    ],
+  },
+  {
+    title: "Farsz",
+    items: [
+      "2 szklanki kiszonej kapusty",
+      "1 szklanka suszonych grzybów (np. borowiki, podgrzybki)",
+      "1 cebula",
+      "2 łyżki oleju",
+      "Sól, pieprz do smaku",
+    ],
+  },
+];
 
 const Dumpligator = () => {
   const { tmp, setTmp } = useDumplingStore()
@@ -23,6 +46,7 @@ const Dumpligator = () => {
       {tmp && <Loader />}
       <Button onClick={() => setTmp(!tmp)}>Generuj</Button>
       <Button variant="action">Zapisz i przejdź do tworzenia przepisu</Button>
+      <Accordion header={'Składniki'} sections={sections} />
     </div>
   )
 }
