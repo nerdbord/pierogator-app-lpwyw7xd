@@ -7,6 +7,7 @@ import { Button } from '@/components/Button/Button'
 import Loader from '@/components/Loader/Loader'
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import useDumplingStore from '@/store/useDumplingStore'
+import { Card } from '@/components/Card/Card'
 
 const Dumpligator = () => {
   const { tmp, setTmp } = useDumplingStore()
@@ -23,6 +24,15 @@ const Dumpligator = () => {
       {tmp && <Loader />}
       <Button onClick={() => setTmp(!tmp)}>Generuj</Button>
       <Button variant="action">Zapisz i przejdź do tworzenia przepisu</Button>
+
+      <Card
+        item={{
+          name: 'Piróg',
+          img: 'https://i.imgur.com/Odcmv1g.png',
+          url: 'www.url-do-pieroga.ru',
+        }}
+        withActions
+      />
     </div>
   )
 }
