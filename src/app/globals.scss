@@ -4,8 +4,66 @@
   margin: 0;
 }
 
+:root {
+--light-cake: #ffe5b2;
+--dark-cake: #face90;
+--dark-green: #002902;
+--dark-gray: #969696;
+--gray: #d6d6d6;
+--light-gray: #e8e8e8;
+--bg-gray: #f9f9f9;
+--white: #ffffff;
+--green: #004b03;
+}
+
+html {
+  font-family: var(--font-poppins), sans-serif;
+}
+
 body {
-  background-color: tomato;
+  background-color: var(--bg-gray);
   display: flex;
   justify-content: center;
+}
+
+.h1 {
+  font-family: var(--font-barrio);
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 34px;
+}
+
+.h2 {
+  font-family: var(--font-barriecito);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 24px;
+}
+
+.h3 {
+  font-family: var(--font-poppins);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.body {
+  font-family: var(--font-poppins);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.button {
+  font-family: var(--font-poppins);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.buttonSecond {
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
 }
