@@ -1,16 +1,17 @@
-'use client'
-import styles from './page.module.scss'
-import TextField from '@/compontents/TextField/TextField'
-import { Unlock } from '../assets/icons/Unlock/Unlock'
-import { Lock } from '../assets/icons/Lock/Lock'
+﻿'use client'
+import React from 'react'
+import TextField from '@/components/TextField/TextField'
+import { Unlock } from '../../assets/icons/Unlock/Unlock'
+import { Lock } from '../../assets/icons/Lock/Lock'
 import { Button } from '@/components/Button/Button'
 import Loader from '@/components/Loader/Loader'
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import useDumplingStore from '@/store/useDumplingStore'
-export default function Home() {
+
+const Dumpligator = () => {
   const { tmp, setTmp } = useDumplingStore()
   return (
-    <div className={styles.container}>
+    <div>
       <SectionHeader>PIEROGATOR MORDO</SectionHeader>
       <TextField
         onChange={() => console.log('huj')}
@@ -25,3 +26,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Dumpligator
