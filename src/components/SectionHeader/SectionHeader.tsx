@@ -6,7 +6,7 @@ export const SectionHeader = ({ children }: PropsWithChildren) => {
   return (
     <div className={styles.header}>
       <Dumpling />
-      <h2>{children}</h2>
+      <h2 className="h2">{children}</h2>
     </div>
   )
 }
