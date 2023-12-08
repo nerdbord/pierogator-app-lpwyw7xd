@@ -13,7 +13,7 @@ export const Unlock = () => {
         <path
           d="M12.75 8.24998V4.51581C12.75 2.51378 11.127 0.890807 9.125 0.890807H9.00917C7.07111 0.890807 5.41095 2.45944 5.25 4.39081V4.39081"
           stroke="#002902"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <rect
           x="3.75"
@@ -22,8 +22,8 @@ export const Unlock = () => {
           height="7.5"
           rx="1"
           stroke="#002902"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </div>
