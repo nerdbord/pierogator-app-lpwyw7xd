@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import styles from './SectionHeader.module.scss'
-import Dumpling from '../icons/Dumpling'
+import Dumpling from '../../assets/icons/Dumpling/Dumpling'
 
 export const SectionHeader = ({ children }: PropsWithChildren) => {
   return (
