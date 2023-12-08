@@ -9,7 +9,7 @@ export const Arrow = () => {
       viewBox="0 0 24 24"
       fill="none"
     >
-      <path d="M6 10L12 16L18 10" stroke="#969696" stroke-linecap="round" />
+      <path d="M6 10L12 16L18 10" stroke="#969696" strokeLinecap="round" />
     </svg>
   )
 }

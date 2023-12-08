@@ -30,6 +30,7 @@ const sections = [
     ],
   },
 ];
+import { Card } from '@/components/Card/Card'
 
 const Dumpligator = () => {
   const { tmp, setTmp } = useDumplingStore()
@@ -47,6 +48,15 @@ const Dumpligator = () => {
       <Button onClick={() => setTmp(!tmp)}>Generuj</Button>
       <Button variant="action">Zapisz i przejdź do tworzenia przepisu</Button>
       <Accordion header={'Składniki'} sections={sections} />
+
+      <Card
+        item={{
+          name: 'Piróg',
+          img: 'https://i.imgur.com/Odcmv1g.png',
+          url: 'www.url-do-pieroga.ru',
+        }}
+        withActions
+      />
     </div>
   )
 }
