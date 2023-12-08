@@ -17,14 +17,14 @@ export const Lock = () => {
           height="7.5"
           rx="1"
           stroke="#002902"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M5.25 6C5.25 3.92893 6.92893 2.25 9 2.25V2.25C11.0711 2.25 12.75 3.92893 12.75 6V8.25H5.25V6Z"
           stroke="#002902"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </div>
