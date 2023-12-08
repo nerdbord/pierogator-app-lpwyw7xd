@@ -31,6 +31,9 @@
   &:focus {
     outline: none;
   }
+  &:focus::placeholder {
+    color: var(--Dark-green, #002902);
+  }
 }
 
 .label {
