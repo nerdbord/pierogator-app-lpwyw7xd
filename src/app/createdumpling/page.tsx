@@ -22,7 +22,7 @@ const CreateDumpling = () => {
     router.push('/dumplinghub')
   };
 
-  const { tmp, setTmp } = useDumplingStore()
+
   return (
     <div className={styles.container}>
       <div className={styles.headerWrapper}>
@@ -43,8 +43,8 @@ const CreateDumpling = () => {
       <div className={styles.headerWrapper}>
         <SectionHeader>Przepis</SectionHeader>
         <div className={styles.buttonWrapper}>
-          {tmp && <Loader />}
-          <Button onClick={() => setTmp(!tmp)}>Generuj</Button>
+          {/* {tmp && <Loader />} */}
+          <Button onClick={() => console.log('yumyum')}>Generuj</Button>
         </div>
       </div>
       <TextField
