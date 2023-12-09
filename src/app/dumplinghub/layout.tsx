@@ -6,7 +6,7 @@ import Header from '@/components/Header/Header'
 const DumplinghubLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <Header src={dumplinghubHeader} alt="Dumplinghub header" />
+      <Header src="/Pierogarnia.png" alt="Dumplinghub header" />
       <InnerContainer>{children}</InnerContainer>
     </>
   )
