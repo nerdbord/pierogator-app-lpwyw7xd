@@ -2,10 +2,10 @@
 import Image, { StaticImageData } from 'next/image'
 import styles from './Header.module.scss'
 
-const Header = ({ src, alt }: { src: StaticImageData; alt: string }) => {
+const Header = ({ src, alt }: { src: string; alt: string }) => {
   return (
     <header className={styles.header}>
-      <Image src={src} alt={alt} />
+      <img src={src} alt={alt} />
     </header>
   )
 }

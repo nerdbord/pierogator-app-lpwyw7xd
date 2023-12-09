@@ -53,6 +53,7 @@ const Dumpligator = () => {
               img: 'https://i.imgur.com/Odcmv1g.png',
               url: 'www.url-do-pieroga.ru',
             }}
+            imageSize='big'
           />
           <TextFieldSingle
             label="Nazwa"
