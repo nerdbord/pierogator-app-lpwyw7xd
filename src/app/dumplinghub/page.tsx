@@ -6,7 +6,7 @@ import styles from './page.module.scss'
 import { useRouter } from 'next/navigation'
 import { Card } from '@/components/Card/Card'
 
-const Dumpligator = () => {
+const Dumplinghub = () => {
   const router = useRouter()
 
   const handleBackClick = () => {
@@ -50,4 +50,4 @@ const Dumpligator = () => {
   )
 }
 
-export default Dumpligator
+export default Dumplinghub

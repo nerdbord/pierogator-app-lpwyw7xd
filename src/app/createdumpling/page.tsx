@@ -8,12 +8,11 @@ import useDumplingStore from '@/store/useDumplingStore'
 import { Accordion } from '@/components/Accordion/Accordion'
 import styles from './page.module.scss'
 import { useRouter } from 'next/navigation'
-
 import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { podawanie, przygotowanie, skladniki } from '@/fakeData/fakeData'
 
-const Dumpligator = () => {
+const CreateDumpling = () => {
   const router = useRouter()
 
   const handleBackClick = () => {
@@ -36,6 +35,7 @@ const Dumpligator = () => {
           img: 'https://i.imgur.com/Odcmv1g.png',
           url: 'www.url-do-pieroga.ru',
         }}
+        imageSize='big'
       />
       <div className={styles.dumlingNameWrapper}>
         <TextFieldSingle value="Piróg Piroga" disabled={true} /> 
@@ -64,4 +64,4 @@ const Dumpligator = () => {
   )
 }
 
-export default Dumpligator
+export default CreateDumpling
