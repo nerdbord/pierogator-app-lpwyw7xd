@@ -6,17 +6,9 @@ import Loader from '@/components/Loader/Loader'
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import useDumplingStore from '@/store/useDumplingStore'
 import styles from './page.module.scss'
-import { useRouter } from 'next/navigation'
-import { Card } from '@/components/Card/Card'
-import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
+import GenerateDumplingImage from '@/components/Sections/GenerateDumplingImage/GenerateDumplingImage'
 
 const Dumpligator = () => {
-  const router = useRouter()
-
-  const handleNavigate = () => {
-    router.push('/createdumpling')
-  }
-
   const [dough, setDough] = useState('')
   const [filling, setFilling] = useState('')
   const [ingredients, setIngredients] = useState('')
@@ -114,29 +106,13 @@ const Dumpligator = () => {
         locked={isIngredientsLocked}
         onLockChange={setIsIngredientsLocked}
       />
-      <div className={styles.headerWrapper}>
-        <SectionHeader>Pieróg</SectionHeader>
-        <div className={styles.buttonWrapper}>
-          {tmp && <Loader />}
-          <Button onClick={() => setTmp(!tmp)}>Generuj</Button>
-        </div>
-      </div>
-      {tmp && (
-        <>
-          <Card
-            item={{
-              name: '',
-              img: 'https://i.imgur.com/Odcmv1g.png',
-              url: 'www.url-do-pieroga.ru',
-            }}
-            imageSize="big"
-          />
-          <TextFieldSingle label="Nazwa" value="Piróg Piroga" />
-          <Button variant="action" onClick={handleNavigate}>
-            Zapisz i przejdź do tworzenia przepisu
-          </Button>
-        </>
-      )}
+
+      {/* Generate dumpling image and name */}
+      <GenerateDumplingImage
+        ingredients={ingredients}
+        dough={dough}
+        filling={filling}
+      />
     </div>
   )
 }
