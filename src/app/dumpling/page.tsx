@@ -8,6 +8,7 @@ import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { Accordion } from '@/components/Accordion/Accordion'
 import { podawanie, przygotowanie, skladniki } from '@/fakeData/fakeData'
+import BigImage from '@/components/BigImage/BigImage'
 
 const Dumpling = () => {
   const router = useRouter()
@@ -23,14 +24,7 @@ const Dumpling = () => {
         <SectionHeader>Pieróg</SectionHeader>
       </div>
       <div className={styles.myDumplingsContainer}>
-        <Card
-          item={{
-            name: '',
-            img: 'https://i.imgur.com/Odcmv1g.png',
-            url: 'www.url-do-pieroga.ru',
-          }}
-          imageSize="big"
-        />
+        <BigImage src={'https://i.imgur.com/Odcmv1g.png'} />
         <TextFieldSingle value="Pierożyn" disabled={true} />
       </div>
       <div className={styles.headerWrapperFlexEnd}>

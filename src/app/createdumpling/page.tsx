@@ -11,8 +11,11 @@ import { useRouter } from 'next/navigation'
 import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { podawanie, przygotowanie, skladniki } from '@/fakeData/fakeData'
+import Image from 'next/image'
+import BigImage from '@/components/BigImage/BigImage'
 
 const CreateDumpling = () => {
+  const { dumplingBase } = useDumplingStore()
   const router = useRouter()
 
   const handleBackClick = () => {
@@ -20,8 +23,7 @@ const CreateDumpling = () => {
   }
   const handleNavigate = () => {
     router.push('/dumplinghub')
-  };
-
+  }
 
   return (
     <div className={styles.container}>
@@ -29,16 +31,11 @@ const CreateDumpling = () => {
         <SectionHeader>Pieróg</SectionHeader>
         <Button onClick={handleBackClick}>Zmień</Button>
       </div>
-      <Card
-        item={{
-          name: '',
-          img: 'https://i.imgur.com/Odcmv1g.png',
-          url: 'www.url-do-pieroga.ru',
-        }}
-        imageSize='big'
-      />
+
+      <BigImage src={dumplingBase.imgUrl} />
+
       <div className={styles.dumlingNameWrapper}>
-        <TextFieldSingle value="Piróg Piroga" disabled={true} /> 
+        <TextFieldSingle value={dumplingBase.name} disabled={true} />
       </div>
       <div className={styles.headerWrapper}>
         <SectionHeader>Przepis</SectionHeader>
@@ -59,8 +56,8 @@ const CreateDumpling = () => {
         <Accordion header={'Podawanie'} sections={podawanie} />
       </div>
       <Button variant="action" onClick={handleNavigate}>
-            Udostępnij pieroga
-          </Button>
+        Udostępnij pieroga
+      </Button>
     </div>
   )
 }
