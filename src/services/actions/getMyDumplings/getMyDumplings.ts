@@ -8,6 +8,9 @@ export async function getMyDumplings() {
         method: 'GET',
         headers: {
           Authorization: `${process.env.API_KEY}`,
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
         },
       },
     )
@@ -17,7 +20,7 @@ export async function getMyDumplings() {
     }
 
     const res = await response.json()
-    return res.recipes
+    return res
   } catch (error) {
     console.error('Error fetching my dumplings:', error)
     throw new Error(`HTTP error! status: ${error}`)
