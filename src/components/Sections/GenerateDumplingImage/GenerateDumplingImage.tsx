@@ -37,14 +37,20 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
 
   const getImage = () => {
     startTransition(async () => {
-      const promptImage = `Pyszny pieróg zrobiony z ${ingredients}. id: ${Math.floor(
-        Math.random() * 1000,
-      )}`
-      const promptName = `Podaj krótką oryginalną nazwę pieroga na bazie składników: ${ingredients}. Użyj w nazwie słowa pieróg id: ${Math.floor(
-        Math.random() * 1000,
-      )}`
-      setImage(await generateImage(promptImage))
-      setName(await generateName(promptName))
+      try {
+        const promptImage = `Pyszny pieróg zrobiony z ${ingredients}. Bez id: ${Math.floor(
+          Math.random() * 1000,
+        )}`
+        const promptName = `Podaj krótką oryginalną nazwę pieroga na bazie składników: ${ingredients}. Bez id: ${Math.floor(
+          Math.random() * 1000,
+        )}`
+        const url = await generateImage(promptImage)
+        const name = await generateName(promptName)
+        setImage(url)
+        setName(name)
+      } catch (error) {
+        console.log(error)
+      }
     })
   }
   return (
@@ -53,7 +59,7 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
         <SectionHeader>Pieróg</SectionHeader>
         <div className={styles.button}>
           {isPending && <Loader />}
-          <Button onClick={getImage}>Generuj</Button>
+          <Button onClick={getImage} disabled={isPending}>Generuj</Button>
         </div>
       </div>
       {image && name && (
@@ -66,8 +72,8 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
             }}
             imageSize="big"
           />
-          <TextFieldSingle onChange={() => null} label="Nazwa" value={name} />
-          <Button variant="action" onClick={handleSaveAndNavigate}>
+          <TextFieldSingle onChange={() => null} label="Nazwa" value={name} disabled />
+          <Button variant="action" onClick={handleSaveAndNavigate} disabled={isPending}>
             Zapisz i przejdź do tworzenia przepisu
           </Button>
         </>
