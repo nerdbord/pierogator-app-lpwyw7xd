@@ -8,7 +8,8 @@ import useDumplingStore from '@/store/useDumplingStore'
 import styles from './page.module.scss'
 import GenerateDumplingImage from '@/components/Sections/GenerateDumplingImage/GenerateDumplingImage'
 import { generateIngredients } from '../../services/actions/generateIngredients/generateIngredients'
-const Dumpligator = () => {
+
+const Dumplingator = () => {
   const { dumplingBase } = useDumplingStore()
   const [dough, setDough] = useState(dumplingBase.dough)
   const [filling, setFilling] = useState(dumplingBase.filling)
@@ -21,15 +22,15 @@ const Dumpligator = () => {
   const generateAllIngredients = () => {
     startTransition(async () => {
       try {
-        const { dough, filling, ingredients } = await generateIngredients();
-        if (!isDoughLocked) setDough(dough);
-        if (!isFillingLocked) setFilling(filling);
-        if (!isIngredientsLocked) setIngredients(ingredients);
+        const { dough, filling, ingredients } = await generateIngredients()
+        if (!isDoughLocked) setDough(dough)
+        if (!isFillingLocked) setFilling(filling)
+        if (!isIngredientsLocked) setIngredients(ingredients)
       } catch (error) {
-        console.error('Error during ingredients generation:', error);
+        console.error('Error during ingredients generation:', error)
       }
-    });
-  };
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -37,7 +38,9 @@ const Dumpligator = () => {
         <SectionHeader>Składniki</SectionHeader>
         <div className={styles.buttonWrapper}>
           {isPending && <Loader />}
-          <Button onClick={generateAllIngredients} disabled={isPending}>Generuj</Button>
+          <Button onClick={generateAllIngredients} disabled={isPending}>
+            Generuj
+          </Button>
         </div>
       </div>
       <TextField
@@ -75,4 +78,4 @@ const Dumpligator = () => {
   )
 }
 
-export default Dumpligator
+export default Dumplingator
