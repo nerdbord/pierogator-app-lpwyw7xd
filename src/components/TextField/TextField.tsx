@@ -12,7 +12,7 @@ interface TextFieldProps {
   onChange: ChangeEventHandler<HTMLTextAreaElement>
   label?: string
   value?: string
-  locked: boolean
+  locked?: boolean
   onLockChange?: (locked: boolean) => void
 }
 
