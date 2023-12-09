@@ -1,17 +1,15 @@
 'use client'
 import React, { ChangeEventHandler, useState } from 'react'
 import styles from './TextFieldSingle.module.scss'
-import { Lock } from '@/assets/icons/Lock/Lock'
-import { Unlock } from '@/assets/icons/Unlock/Unlock'
 
 interface TextFieldProps {
   id?: string
   name?: string
   placeholder?: string
-  iconState?: 'none' | 'lock' | 'unlock'
   onChange?: ChangeEventHandler<HTMLInputElement>
   label?: string
   value?: string
+  disabled?: boolean
 }
 
 export const TextField = ({
@@ -20,16 +18,10 @@ export const TextField = ({
   placeholder,
   onChange,
   label,
-  iconState = 'unlock',
-  value
+  value,
+  disabled
 }: TextFieldProps) => {
-  const [currentIconState, setCurrentIconState] = useState(iconState)
 
-  const toggleIcon = () => {
-    setCurrentIconState((prevState) =>
-      prevState === 'unlock' ? 'lock' : 'unlock',
-    )
-  }
 
   return (
     <div className={styles.container}>
@@ -39,17 +31,12 @@ export const TextField = ({
         </label>
       )}
       <div className={styles.inputWrapper}>
-        {currentIconState !== 'none' && (
-          <span className={styles.icon} onClick={toggleIcon}>
-            {currentIconState === 'lock' ? <Lock /> : <Unlock />}
-          </span>
-        )}
         <input
           className={styles.input}
           id={id}
           name={name}
           placeholder={placeholder}
-          disabled={currentIconState === 'lock'}
+          disabled={disabled}
           onChange={onChange}
           value={value}
         />
