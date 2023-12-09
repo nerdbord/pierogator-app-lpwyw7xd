@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import useDumplingStore from '@/store/useDumplingStore'
 import { Accordion } from '@/components/Accordion/Accordion'
 import styles from './page.module.scss'
+import { useRouter } from 'next/navigation'
 const sections = [
   {
     title: 'Ciasto',
@@ -32,6 +33,11 @@ import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 
 const Dumpligator = () => {
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    router.push('/createdumpling')
+  };
   const { tmp, setTmp } = useDumplingStore()
   return (
     <div className={styles.container}>
@@ -72,10 +78,9 @@ const Dumpligator = () => {
           />
           <TextFieldSingle
             label="Nazwa"
-            iconState="none"
             value="Piróg Piroga"
           />
-          <Button variant="action">
+          <Button variant="action" onClick={handleNavigate }>
             Zapisz i przejdź do tworzenia przepisu
           </Button>
         </>
