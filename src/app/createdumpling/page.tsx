@@ -59,7 +59,6 @@ const CreateDumpling = () => {
   }
 
   const [isPending, startTransition] = useTransition()
-  const { dumplingBase } = useDumplingStore()
   const router = useRouter()
 
   const handleBackClick = () => {
