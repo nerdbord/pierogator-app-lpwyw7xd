@@ -3,7 +3,7 @@ import './globals.scss'
 
 import { Poppins, Barrio, Barriecito } from 'next/font/google'
 import Container from '@/components/Containers/Container/Container'
-
+import  Head  from 'next/head'
 export const poppins = Poppins({
   weight: ['400', '500', '600'],
   subsets: ['latin'],
@@ -25,6 +25,7 @@ export const barriecito = Barriecito({
 export const metadata: Metadata = {
   title: 'Pierogator',
   description: 'An application that generates dumplings using AI',
+  // viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({
@@ -34,6 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head ><meta name="viewport" content='width=device-width, initial-scale=1'></meta></Head>
       <body
         className={`${poppins.variable} ${barrio.variable} ${barriecito.variable}`}
       >

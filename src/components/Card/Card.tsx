@@ -6,9 +6,10 @@ import { Button } from '../Button/Button'
 interface Props {
   item: { name: string; img: string; url: string } //tmp interface
   withActions?: boolean
+  imageSize?: 'big' | 'small'
 }
 
-export const Card = ({ item, withActions }: Props) => {
+export const Card = ({ item, withActions, imageSize }: Props) => {
   const handleOpen = () => {
     console.log('Otwórz pieroga')
   }
@@ -19,7 +20,7 @@ export const Card = ({ item, withActions }: Props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.image}>
+      <div className={imageSize === 'big' ? styles.imageBig : styles.imageSmall}>
         <Image
           src={item.img}
           alt="Dumpling image"

@@ -1,0 +1,35 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonWrapper {
+  display: flex;
+}
+
+.dumlingNameWrapper {
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.accordionsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.myDumplingsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 19px;
+  margin-bottom: 8px;
+}
