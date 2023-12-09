@@ -51,6 +51,7 @@ const CreateDumpling = () => {
         label="Uwagi do przepisu"
         placeholder="chrupiące pierogi bez pieczenia, bez użycia miksera"
         iconState="none"
+        onChange={() => console.log('yumyum')}
       />
       <div className={styles.accordionsWrapper}>
         <Accordion header={'Składniki'} sections={skladniki} />
