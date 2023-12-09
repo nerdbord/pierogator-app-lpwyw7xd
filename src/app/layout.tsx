@@ -3,20 +3,20 @@ import './globals.scss'
 
 import { Poppins, Barrio, Barriecito } from 'next/font/google'
 import Container from '@/components/Containers/Container/Container'
-import  Head  from 'next/head'
-export const poppins = Poppins({
+import Head from 'next/head'
+const poppins = Poppins({
   weight: ['400', '500', '600'],
   subsets: ['latin'],
   variable: '--font-poppins',
 })
 
-export const barrio = Barrio({
+ const barrio = Barrio({
   weight: ['400'],
   subsets: ['latin'],
   variable: '--font-barrio',
 })
 
-export const barriecito = Barriecito({
+const barriecito = Barriecito({
   weight: ['400'],
   subsets: ['latin'],
   variable: '--font-barriecito',
@@ -35,9 +35,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head ><meta name="viewport" content='width=device-width, initial-scale=1'></meta></Head>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        ></meta>{' '}
+      </Head>
       <body
-        className={`${poppins.variable} ${barrio.variable} ${barriecito.variable}`}
+      className={`${poppins.variable} ${barrio.variable} ${barriecito.variable}`}
       >
         <Container>{children}</Container>
       </body>
