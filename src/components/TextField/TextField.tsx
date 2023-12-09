@@ -9,7 +9,7 @@ interface TextFieldProps {
   name?: string
   placeholder?: string
   iconState?: 'none' | 'lock' | 'unlock'
-  onChange: ChangeEventHandler<HTMLTextAreaElement>
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>
   label?: string
   value?: string
   locked?: boolean
