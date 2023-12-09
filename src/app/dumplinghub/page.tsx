@@ -8,9 +8,11 @@ import { Card } from '@/components/Card/Card'
 import { getPublicDumplings } from '@/services/actions/getPublicDumplings/getPublicDumplings'
 import { getMyDumplings } from '@/services/actions/getMyDumplings/getMyDumplings'
 import { DumplingRecipe } from '@/types/types'
+import useDumplingStore from '@/store/useDumplingStore'
 
 const Dumplinghub = () => {
   const router = useRouter()
+  const { refreshList } = useDumplingStore()
   const [isPending, startTransition] = useTransition()
   const [myDumplings, setMyDumplings] = useState<null | []>(null)
   const [publicDumplings, setPublicDumplings] = useState<null | Array<DumplingRecipe>>(null)
@@ -25,11 +27,12 @@ const Dumplinghub = () => {
 
   useEffect(() => {
     getAllDumplings()
-  }, [])
+  }, [refreshList])
 
   const getAllDumplings = () => {
     startTransition(async () => {
       try {
+        console.log("Loading dumplings")
         setPublicDumplings(await getPublicDumplings())
         setMyDumplings(await getMyDumplings())
       } catch (error) {
