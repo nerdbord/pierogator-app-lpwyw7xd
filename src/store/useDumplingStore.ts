@@ -8,7 +8,8 @@ interface DumplingStore {
   setRefreshList: () => void
 }
 
-const useDumplingStore = create<DumplingStore>((set) => ({
+
+export const useDumplingStore = create<DumplingStore>((set) => ({
   refreshList: false,
   dumplingBase: {
     name: '',
