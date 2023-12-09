@@ -1,6 +1,6 @@
 'use client'
 import React, { ChangeEventHandler, useState } from 'react'
-import styles from './TextField.module.scss'
+import styles from './TextFieldSingle.module.scss'
 import { Lock } from '@/assets/icons/Lock/Lock'
 import { Unlock } from '@/assets/icons/Unlock/Unlock'
 
@@ -9,8 +9,9 @@ interface TextFieldProps {
   name?: string
   placeholder?: string
   iconState?: 'none' | 'lock' | 'unlock'
-  onChange?: ChangeEventHandler<HTMLTextAreaElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   label?: string
+  value?: string
 }
 
 export const TextField = ({
@@ -20,6 +21,7 @@ export const TextField = ({
   onChange,
   label,
   iconState = 'unlock',
+  value
 }: TextFieldProps) => {
   const [currentIconState, setCurrentIconState] = useState(iconState)
 
@@ -42,13 +44,14 @@ export const TextField = ({
             {currentIconState === 'lock' ? <Lock /> : <Unlock />}
           </span>
         )}
-        <textarea
+        <input
           className={styles.input}
           id={id}
           name={name}
           placeholder={placeholder}
           disabled={currentIconState === 'lock'}
           onChange={onChange}
+          value={value}
         />
       </div>
     </div>
