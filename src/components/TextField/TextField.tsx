@@ -3,14 +3,16 @@ import React, { ChangeEventHandler, useState } from 'react'
 import styles from './TextField.module.scss'
 import { Lock } from '@/assets/icons/Lock/Lock'
 import { Unlock } from '@/assets/icons/Unlock/Unlock'
+import { on } from 'stream'
 
 interface TextFieldProps {
   id?: string
   name?: string
   placeholder?: string
   iconState?: 'none' | 'lock' | 'unlock'
-  onChange?: ChangeEventHandler<HTMLTextAreaElement>
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
   label?: string
+  value?: string
 }
 
 export const TextField = ({
@@ -20,6 +22,7 @@ export const TextField = ({
   onChange,
   label,
   iconState = 'unlock',
+  value
 }: TextFieldProps) => {
   const [currentIconState, setCurrentIconState] = useState(iconState)
 
@@ -49,6 +52,7 @@ export const TextField = ({
           placeholder={placeholder}
           disabled={currentIconState === 'lock'}
           onChange={onChange}
+          value={value}
         />
       </div>
     </div>
