@@ -3,9 +3,10 @@ import styles from './Card.module.scss'
 import Image from 'next/image'
 import { Button } from '../Button/Button'
 import { useRouter } from 'next/navigation'
+import type { DumplingRecipe } from '@/types/types'
 
 interface Props {
-  item: { name: string; img: string; url: string } //tmp interface
+  item: DumplingRecipe
   withActions?: boolean
   imageSize?: 'big' | 'small'
 }
@@ -23,16 +24,18 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
 
   return (
     <div className={styles.container}>
-      <div className={imageSize === 'big' ? styles.imageBig : styles.imageSmall}>
+      <div
+        className={imageSize === 'big' ? styles.imageBig : styles.imageSmall}
+      >
         <Image
-          src={item.img}
+          src={item.imageSrc}
           alt="Dumpling image"
           fill
           style={{ objectFit: 'cover' }}
         />
       </div>
       <p>{item.name}</p>
-      
+
       {withActions && (
         <div className={styles.actions}>
           <Button onClick={handleOpen}>Otwórz</Button>
