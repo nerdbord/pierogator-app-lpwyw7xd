@@ -9,13 +9,14 @@ import styles from './page.module.scss'
 import GenerateDumplingImage from '@/components/Sections/GenerateDumplingImage/GenerateDumplingImage'
 
 const Dumpligator = () => {
-  const [dough, setDough] = useState('')
-  const [filling, setFilling] = useState('')
-  const [ingredients, setIngredients] = useState('')
+  const { tmp, dumplingBase } = useDumplingStore()
+  const [dough, setDough] = useState(dumplingBase.dough)
+  const [filling, setFilling] = useState(dumplingBase.filling)
+  const [ingredients, setIngredients] = useState(dumplingBase.ingredients)
   const [isDoughLocked, setIsDoughLocked] = useState(false)
   const [isFillingLocked, setIsFillingLocked] = useState(false)
   const [isIngredientsLocked, setIsIngredientsLocked] = useState(false)
-  const { tmp, setTmp } = useDumplingStore()
+  
 
   const generateSingleIngredient = async (prompt: string, setState: any) => {
     try {
