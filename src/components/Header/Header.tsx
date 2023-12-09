@@ -1,4 +1,5 @@
-﻿import React from 'react'
+﻿/* eslint-disable @next/next/no-img-element */
+import React from 'react'
 import Image, { StaticImageData } from 'next/image'
 import styles from './Header.module.scss'
 

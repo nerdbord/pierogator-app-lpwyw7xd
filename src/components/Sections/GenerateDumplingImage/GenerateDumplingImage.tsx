@@ -38,7 +38,7 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
   const getImage = () => {
     startTransition(async () => {
       try {
-        const promptImage = `Pyszny pieróg zrobiony z ${ingredients}. Bez id: ${Math.floor(
+        const promptImage = `Pyszny pieróg zrobiony z ${ingredients} oraz ${filling}. Bez id: ${Math.floor(
           Math.random() * 1000,
         )}`
         const promptName = `Podaj krótką oryginalną nazwę pieroga na bazie składników: ${ingredients}. Bez id: ${Math.floor(
