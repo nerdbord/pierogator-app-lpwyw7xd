@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './Card.module.scss'
 import Image from 'next/image'
 import { Button } from '../Button/Button'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   item: { name: string; img: string; url: string } //tmp interface
@@ -10,8 +11,10 @@ interface Props {
 }
 
 export const Card = ({ item, withActions, imageSize }: Props) => {
+  const router = useRouter()
+
   const handleOpen = () => {
-    console.log('Otwórz pieroga')
+    router.push('/dumpling')
   }
 
   const handleDelete = () => {
