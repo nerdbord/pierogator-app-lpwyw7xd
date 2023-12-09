@@ -8,7 +8,7 @@ interface DumplingStore {
   setDumplingBase: (value: DumplingBase) => void
 }
 
-const useDumplingStore = create<DumplingStore>((set) => ({
+export const useDumplingStore = create<DumplingStore>((set) => ({
 
   dumplingBase: {
     name: '',

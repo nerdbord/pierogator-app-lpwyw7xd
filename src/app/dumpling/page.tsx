@@ -1,5 +1,5 @@
 ﻿'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/Button/Button'
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import styles from './page.module.scss'
@@ -37,9 +37,9 @@ const Dumpling = () => {
         <SectionHeader>Przepis</SectionHeader>
       </div>
       <div className={styles.accordionsWrapper}>
-        <Accordion header={'Składniki'} sections={skladniki} />
-        <Accordion header={'Przygotowanie'} sections={przygotowanie} />
-        <Accordion header={'Podawanie'} sections={podawanie} />
+        <Accordion header={'Składniki'}/>
+        <Accordion header={'Przygotowanie'}/>
+        <Accordion header={'Podawanie'}/>
       </div>
     </div>
   )
