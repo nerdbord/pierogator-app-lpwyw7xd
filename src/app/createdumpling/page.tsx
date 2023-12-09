@@ -13,6 +13,8 @@ import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { podawanie, przygotowanie, skladniki } from '@/fakeData/fakeData'
 import { generateRecipe } from '@/services/actions/generateRecipe/generateRecipe'
+import Image from 'next/image'
+import BigImage from '@/components/BigImage/BigImage'
 
 const CreateDumpling = () => {
   const parseRecipeData = (doughData: string, fillingData: string) => {
@@ -57,6 +59,7 @@ const CreateDumpling = () => {
   }
 
   const [isPending, startTransition] = useTransition()
+  const { dumplingBase } = useDumplingStore()
   const router = useRouter()
 
   const handleBackClick = () => {
@@ -96,14 +99,7 @@ const CreateDumpling = () => {
         <SectionHeader>Pieróg</SectionHeader>
         <Button onClick={handleBackClick}>Zmień</Button>
       </div>
-      <Card
-        item={{
-          name: '',
-          img: dumplingBase.imgUrl,
-          url: 'www.url-do-pieroga.ru',
-        }}
-        imageSize="big"
-      />
+      <BigImage src={dumplingBase.imgUrl} />
       <div className={styles.dumlingNameWrapper}>
         <TextFieldSingle value={dumplingBase.name} disabled={true} />
       </div>

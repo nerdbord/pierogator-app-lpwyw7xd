@@ -1,6 +1,5 @@
 import React, { useState, useTransition } from 'react'
 import { Button } from '@/components/Button/Button'
-import { Card } from '@/components/Card/Card'
 import Loader from '@/components/Loader/Loader'
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import { generateImage } from '@/services/actions/generateImage/generateImage'
@@ -9,6 +8,7 @@ import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { useRouter } from 'next/navigation'
 import { generateName } from '@/services/actions/generateName/generateName'
 import useDumplingStore from '@/store/useDumplingStore'
+import BigImage from '@/components/BigImage/BigImage'
 
 interface Props {
   ingredients: string
@@ -59,21 +59,25 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
         <SectionHeader>Pieróg</SectionHeader>
         <div className={styles.button}>
           {isPending && <Loader />}
-          <Button onClick={getImage} disabled={isPending}>Generuj</Button>
+          <Button onClick={getImage} disabled={isPending}>
+            Generuj
+          </Button>
         </div>
       </div>
       {image && name && (
         <>
-          <Card
-            item={{
-              name: '',
-              img: image,
-              url: 'www.url-do-pieroga.ru',
-            }}
-            imageSize="big"
+          <BigImage src={image} />
+          <TextFieldSingle
+            onChange={() => null}
+            label="Nazwa"
+            value={name}
+            disabled
           />
-          <TextFieldSingle onChange={() => null} label="Nazwa" value={name} disabled />
-          <Button variant="action" onClick={handleSaveAndNavigate} disabled={isPending}>
+          <Button
+            variant="action"
+            onClick={handleSaveAndNavigate}
+            disabled={isPending}
+          >
             Zapisz i przejdź do tworzenia przepisu
           </Button>
         </>

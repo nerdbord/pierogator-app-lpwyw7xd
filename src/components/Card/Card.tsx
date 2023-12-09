@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useTransition } from 'react'
 import styles from './Card.module.scss'
 import Image from 'next/image'
 import { Button } from '../Button/Button'
 import { useRouter } from 'next/navigation'
+import type { DumplingRecipe } from '@/types/types'
+import { deleteDumpling } from '@/services/actions/deleteDumpling/deleteDumpling'
+import useDumplingStore from '@/store/useDumplingStore'
 
 interface Props {
-  item: { name: string; img: string; url: string } //tmp interface
+  item: DumplingRecipe
   withActions?: boolean
   imageSize?: 'big' | 'small'
 }
 
 export const Card = ({ item, withActions, imageSize }: Props) => {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const { setRefreshList } = useDumplingStore()
 
   const handleOpen = () => {
     router.push('/dumpling')
@@ -19,24 +24,37 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
 
   const handleDelete = () => {
     console.log('Pieróg do kosza')
+
+    startTransition(async () => {
+      try {
+        await deleteDumpling(item._id as string)
+        setRefreshList()
+      } catch (error) {
+        console.error('Error getting public dumplings:', error)
+      }
+    })
   }
 
   return (
     <div className={styles.container}>
-      <div className={imageSize === 'big' ? styles.imageBig : styles.imageSmall}>
+      <div
+        className={imageSize === 'big' ? styles.imageBig : styles.imageSmall}
+      >
         <Image
-          src={item.img}
+          src={item.imageSrc}
           alt="Dumpling image"
           fill
           style={{ objectFit: 'cover' }}
         />
       </div>
       <p>{item.name}</p>
-      
+
       {withActions && (
         <div className={styles.actions}>
           <Button onClick={handleOpen}>Otwórz</Button>
-          <Button onClick={handleDelete}>Usuń</Button>
+          <Button onClick={handleDelete} disabled={isPending}>
+            Usuń
+          </Button>
         </div>
       )}
     </div>
