@@ -43,7 +43,7 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
         )}`
         const promptName = `Podaj krótką oryginalną nazwę pieroga na bazie składników: ${ingredients}. Bez id: ${Math.floor(
           Math.random() * 1000,
-        )}`
+        )} . tylko nie pisz nic więcej, krótka nazwa pieroga np. "Pierozaur" i nic więcej. nazwa nie musi odpowiadać składnikom, ma być śmieszna`
         const url = await generateImage(promptImage)
         const name = await generateName(promptName)
         setImage(url)
