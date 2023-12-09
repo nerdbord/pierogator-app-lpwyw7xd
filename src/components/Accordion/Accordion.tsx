@@ -21,7 +21,7 @@ export const Accordion = ({
   title3,
   item3,
 }: AccordionProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   const handleSwitch = () => {
     setIsOpen(!isOpen)
