@@ -6,12 +6,14 @@ interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
   variant?: 'primary' | 'action'
   type?: 'button' | 'submit'
+  disabled?: boolean
 }
 
 export const Button = ({
   onClick,
   children,
   variant,
+  disabled=false,
   type = 'button',
 }: PropsWithChildren<ButtonProps>) => {
   const buttonClassName = useMemo(() => {
@@ -32,7 +34,7 @@ export const Button = ({
   };
 
   return (
-    <button className={buttonClassName} onClick={handleClick} type={type}>
+    <button className={buttonClassName} onClick={handleClick} type={type} disabled={disabled}>
       {children}
     </button>
   )
