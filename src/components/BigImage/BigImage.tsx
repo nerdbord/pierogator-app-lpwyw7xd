@@ -10,6 +10,7 @@ function BigImage({ src }: { src: string }) {
         alt="Dumpling image"
         fill
         style={{ objectFit: 'cover' }}
+        sizes="400px"
       />
     </div>
   )
