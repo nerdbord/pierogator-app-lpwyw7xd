@@ -13,7 +13,7 @@
     justify-content: space-between;
     align-items: center;
     color: var(--Gray-dark, #969696);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -33,7 +33,7 @@
   
   .sectionTitle {
     color: var(--Dark-green, #002902);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
@@ -43,7 +43,7 @@
   
   .sectionItems {
     color: var(--Dark-green, #002902);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

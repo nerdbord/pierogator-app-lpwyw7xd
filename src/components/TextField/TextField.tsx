@@ -27,15 +27,14 @@ export const TextField = ({
   locked,
   onLockChange,
 }: TextFieldProps) => {
-  const [currentIconState, setCurrentIconState] = useState(
-    locked ? 'lock' : 'unlock',
-  )
+  const [currentIconState, setCurrentIconState] = useState(iconState)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    setCurrentIconState(locked ? 'lock' : 'unlock')
-    adjustHeight()
-  }, [locked])
+    if (iconState !== 'none') {
+      setCurrentIconState(locked ? 'lock' : 'unlock')
+    }
+  }, [locked, iconState])
 
   const adjustHeight = () => {
     const textarea = textareaRef.current
@@ -55,10 +54,12 @@ export const TextField = ({
   }, [value])
 
   const toggleIcon = () => {
-    const newState = currentIconState === 'unlock' ? 'lock' : 'unlock'
-    setCurrentIconState(newState)
-    if (onLockChange) {
-      onLockChange(newState === 'lock')
+    if (iconState !== 'none') {
+      const newState = currentIconState === 'unlock' ? 'lock' : 'unlock'
+      setCurrentIconState(newState)
+      if (onLockChange) {
+        onLockChange(newState === 'lock')
+      }
     }
   }
 
@@ -70,7 +71,7 @@ export const TextField = ({
         </label>
       )}
       <div className={styles.inputWrapper}>
-        {currentIconState !== 'none' && (
+        {iconState !== 'none' && (
           <span className={styles.icon} onClick={toggleIcon}>
             {currentIconState === 'lock' ? <Lock /> : <Unlock />}
           </span>

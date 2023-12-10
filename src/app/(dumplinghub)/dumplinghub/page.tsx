@@ -11,10 +11,11 @@ import { DumplingRecipe } from '@/types/types'
 import useDumplingStore from '@/store/useDumplingStore'
 import NavigateButton from '@/components/NavigateButton/NavigateButton'
 import { AppRoutes } from '@/utils/routes'
+import Loader from '@/components/Loader/Loader'
 
 const Dumplinghub = () => {
   const router = useRouter()
-  const { refreshList } = useDumplingStore()
+  const { refreshList, setToast } = useDumplingStore()
   const [isPending, startTransition] = useTransition()
   const [myDumplings, setMyDumplings] = useState<null | []>(null)
   const [publicDumplings, setPublicDumplings] =
@@ -26,6 +27,7 @@ const Dumplinghub = () => {
 
   useEffect(() => {
     getAllDumplings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshList])
 
   const getAllDumplings = () => {
@@ -36,6 +38,7 @@ const Dumplinghub = () => {
         setMyDumplings(await getMyDumplings())
       } catch (error) {
         console.error('Error getting public dumplings:', error)
+        setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
       }
     })
   }
@@ -48,9 +51,18 @@ const Dumplinghub = () => {
         <NavigateButton url={AppRoutes.home}>Nowy pieróg</NavigateButton>
       </div>
       <div className={styles.myDumplingsContainer}>
-        {myDumplings?.map((card, index) => (
-          <Card key={index} item={card} imageSize="small" withActions />
-        ))}
+        {myDumplings ? (
+          <>
+            {myDumplings.map((card, index) => (
+              <Card key={index} item={card} imageSize="small" withActions />
+            ))}
+          </>
+        ) : (
+          <div className={styles.loader}>
+            <Loader />
+            Ładuje pierożki..
+          </div>
+        )}
       </div>
 
       {/* Public dumplings - PIEROGARNIA */}
@@ -71,7 +83,10 @@ const Dumplinghub = () => {
             ))}
           </>
         ) : (
-          'Loading...'
+          <div className={styles.loader}>
+            <Loader />
+            Ładuje pierożki..
+          </div>
         )}
       </div>
     </div>

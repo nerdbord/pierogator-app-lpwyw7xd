@@ -14,7 +14,7 @@
   }
   
   .input {
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -36,10 +36,14 @@
     }
   }
   
+  .input:disabled {
+    opacity: 1;
+  }
+
   .label {
     display: block;
     color: var(--Dark-green, #002902);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
@@ -54,7 +58,7 @@
   .errorMsg {
     padding: 4px;
     color: var(--Dark-green);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
