@@ -20,7 +20,6 @@ export async function deleteDumpling(id: string) {
     }
 
     const res = await response.json()
-    console.log(res)
     return res
   } catch (error) {
     console.error('Error deleting dumpling:', error)
