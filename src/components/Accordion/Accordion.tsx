@@ -1,36 +1,28 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import styles from './Accordion.module.scss'
 import { Arrow } from '../../assets/icons/Arrow/Arrow'
+import { Ingredient } from '@/types/types'
 
 interface AccordionProps {
   header: string
-  title1?: string
-  item1?: string | React.ReactNode
-  title2?: string
-  item2?: string | React.ReactNode
-  title3?: string
-  item3?: string | React.ReactNode
-  isAccordionOpen?: boolean 
+  sections: React.JSX.Element[]
+  isAccordionOpen: boolean
 }
 
 export const Accordion = ({
   header,
-  title1,
-  item1,
-  title2,
-  item2,
-  title3,
-  item3,
-  isAccordionOpen
+  sections,
+  isAccordionOpen,
 }: AccordionProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (isAccordionOpen !== undefined) {
-      setIsOpen(isAccordionOpen);
+      setIsOpen(isAccordionOpen)
     }
-  }, [isAccordionOpen]);
-  
+  }, [isAccordionOpen])
+
   const handleSwitch = () => {
     setIsOpen(!isOpen)
   }
@@ -38,27 +30,17 @@ export const Accordion = ({
   return (
     <div className={styles.container}>
       <div className={styles.header} onClick={handleSwitch}>
-        <span>{header}</span>
+        <span>{header}:</span>
         <span className={isOpen ? styles.arrowDown : ''}>
           <Arrow />
         </span>
       </div>
-      {isOpen && (
-        <div className={title1 && styles.section}>
-          <h3 className={title1 && styles.sectionTitle}>{title1}</h3>
-          <ul className={styles.sectionItems}>
-            <li>{item1}</li>
-          </ul>
-          <h3 className={title2 && styles.sectionTitle}>{title2}</h3>
-          <ul className={styles.sectionItems}>
-            <li>{item2}</li>
-          </ul>
-          <h3 className={title3 && styles.sectionTitle}>{title3}</h3>
-          <ul className={styles.sectionItems}>
-            <li>{item3}</li>
-          </ul>
-        </div>
-      )}
+      {isOpen &&
+        sections.map((section, index) => (
+          <div key={index} className={styles.section}>
+            {section}
+          </div>
+        ))}
     </div>
   )
 }

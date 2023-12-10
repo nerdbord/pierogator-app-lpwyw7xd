@@ -10,7 +10,7 @@ interface DumplingStore {
   toast: Toast | null
   refreshList: boolean
   dumplingBase: DumplingBase
-  dumplingRecipe: DumplingRecipe
+  dumplingRecipe: DumplingRecipe | null
   setDumplingBase: (value: DumplingBase) => void
   setDumplingRecipe: (value: DumplingRecipe) => void
   setRefreshList: () => void
@@ -41,7 +41,7 @@ export const useDumplingStore = create<DumplingStore>((set) => ({
   toast: null,
   refreshList: false,
   dumplingBase: initBase,
-  dumplingRecipe: initRecipe,
+  dumplingRecipe: null,
   setDumplingBase: (value) => set({ dumplingBase: value }),
   setDumplingRecipe: (value) => set({ dumplingRecipe: value }),
   setRefreshList: () => {

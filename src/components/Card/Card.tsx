@@ -2,10 +2,11 @@ import React, { useTransition } from 'react'
 import styles from './Card.module.scss'
 import Image from 'next/image'
 import { Button } from '../Button/Button'
-import { useRouter } from 'next/navigation'
 import type { DumplingRecipe } from '@/types/types'
 import { deleteDumpling } from '@/services/actions/deleteDumpling/deleteDumpling'
 import useDumplingStore from '@/store/useDumplingStore'
+import NavigateButton from '../NavigateButton/NavigateButton'
+import { AppRoutes } from '@/utils/routes'
 
 interface Props {
   item: DumplingRecipe
@@ -14,13 +15,8 @@ interface Props {
 }
 
 export const Card = ({ item, withActions, imageSize }: Props) => {
-  const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const { setRefreshList, setToast } = useDumplingStore()
-
-  const handleOpen = () => {
-    router.push('/dumpling')
-  }
 
   const handleDelete = () => {
     console.log('Pieróg do kosza')
@@ -36,7 +32,6 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
       }
     })
   }
-
   return (
     <div className={styles.container}>
       <div
@@ -53,9 +48,11 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
 
       {withActions && (
         <div className={styles.actions}>
-          <Button onClick={handleOpen} disabled={isPending}>
+          <NavigateButton url={`${AppRoutes.dumpling}/${item._id}`}>
+            
             Otwórz
-          </Button>
+          
+          </NavigateButton>
           <Button onClick={handleDelete} disabled={isPending}>
             Usuń
           </Button>
