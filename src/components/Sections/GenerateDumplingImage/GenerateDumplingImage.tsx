@@ -38,12 +38,8 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
   const getImage = () => {
     startTransition(async () => {
       try {
-        const promptImage = `Pyszny pieróg zrobiony z ${ingredients} oraz ${filling}. Bez id: ${Math.floor(
-          Math.random() * 1000,
-        )}`
-        const promptName = `Podaj krótką oryginalną nazwę pieroga na bazie składników: ${ingredients}. Bez id: ${Math.floor(
-          Math.random() * 1000,
-        )} . tylko nie pisz nic więcej, krótka nazwa pieroga np. "Pierozaur" i nic więcej. nazwa nie musi odpowiadać składnikom, ma być śmieszna`
+        const promptImage = `Świąteczny i oryginalny pieróg zrobiony z ${ingredients} oraz ${filling}`
+        const promptName = `Podaj krótką oryginalną nazwę pieroga na bazie składników: ${ingredients}. tylko nie pisz nic więcej, krótka nazwa pieroga np. "Pierozaur" i nic więcej. nazwa nie musi odpowiadać składnikom, ma być śmieszna`
         const url = await generateImage(promptImage)
         const name = await generateName(promptName)
         setImage(url)

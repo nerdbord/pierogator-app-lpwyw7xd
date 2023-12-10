@@ -1,5 +1,7 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
+
 async function fetchFromAPI(prompt: string) {
   const response = await fetch(
     'https://training.nerdbord.io/api/v1/openai/chat/completions',
@@ -31,19 +33,13 @@ async function fetchFromAPI(prompt: string) {
 }
 
 export async function generateIngredients() {
-  const doughPrompt = `podaj losowy opis ciasta na pierogi, nie pisz nic więcej chujku mały, i nie zaczynaj zdania od "oto losowe ciasto blablabla" tylko podaj po prostu opis ciasta. opis ma być krótki np. "cienkie, elastyczne ciasto, klasyczny polski przepis z jajkami". tylko nie pisz z jakich składników.  Bez id: ${Math.floor(
-    Math.random() * 1000,
-  )} `
-  const fillingPrompt = `podaj losowy opis nadzienia do pierogów, nie pisz nic więcej chujku mały, i nie zaczynaj zdania od "oto losowe nadzienie blablabla" tylko podaj po prostu krótki opis nadzienia. opis ma być krótki np. "aksamitne tradycyjne wytrawne nadzienie". tylko nie pisz z jakich składników.  Bez id: ${Math.floor(
-    Math.random() * 1000,
-  )}`
-  const ingredientsPrompt = `podaj losowy opis składników do pierogów, nie pisz nic więcej chujku mały, i nie zaczynaj zdania od "oto losowe składniki blablabla" tylko podaj po prostu krótkie składniki. opis ma być krótki np. "cebula, feta, szpinak".  Bez id: ${Math.floor(
-    Math.random() * 1000,
-  )}`
+  const doughPrompt = `podaj losowy opis ciasta na pierogi, nie pisz nic więcej chujku mały, i nie zaczynaj zdania od "oto losowe ciasto blablabla" tylko podaj po prostu opis ciasta. opis ma być krótki np. "cienkie, elastyczne ciasto, klasyczny polski przepis z jajkami". tylko nie pisz z jakich składników`
+  const fillingPrompt = `podaj losowy opis nadzienia do pierogów, nie pisz nic więcej chujku mały, i nie zaczynaj zdania od "oto losowe nadzienie blablabla" tylko podaj po prostu krótki opis nadzienia. opis ma być krótki np. "aksamitne tradycyjne wytrawne nadzienie". tylko nie pisz z jakich składników.`
+  const ingredientsPrompt = `podaj losowy bardzo oryginalny opis składników do pierogów, nie pisz nic więcej chujku mały, i nie zaczynaj zdania od "oto losowe składniki blablabla" tylko podaj po prostu krótkie składniki. opis ma być krótki np. "cebula, feta, szpinak".`
 
   const dough = await fetchFromAPI(doughPrompt)
   const filling = await fetchFromAPI(fillingPrompt)
   const ingredients = await fetchFromAPI(ingredientsPrompt)
-
+  revalidatePath('/')
   return { dough, filling, ingredients }
 }
