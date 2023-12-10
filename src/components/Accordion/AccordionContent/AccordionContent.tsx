@@ -18,7 +18,7 @@ export const ingredientsContent = (ingredients: Ingredients) => {
   return Object.keys(ingredients).map((category) => {
     return (
       <React.Fragment key={category}>
-        <h3 className={styles.sectionTitle}>{category}:</h3>
+        <h3 className={styles.sectionTitle}>{mapCategoryName(category)}</h3>
         <ul className={styles.sectionItems}>
           {ingredients[category as keyof Ingredients].map((item, index) => (
             <li key={index}>{`${index + 1}. ${item.name} ${item.quantity}`}</li>
@@ -35,7 +35,7 @@ export const instructionsContent = (
 ) => {
   return sections.map((category) => (
     <React.Fragment key={category}>
-      <h3 className={styles.sectionTitle}>{category.replace(/_/g, ' ')}:</h3>
+      <h3 className={styles.sectionTitle}>{mapCategoryName(category)}</h3>
       <ul className={styles.sectionItems}>
         {instructions[category as keyof Instructions].map((step, index) => (
           <li key={index}>{`${index + 1}. ${step}`}</li>
@@ -43,4 +43,23 @@ export const instructionsContent = (
       </ul>
     </React.Fragment>
   ))
+}
+
+const mapCategoryName = (categoryName: string) => {
+  switch (categoryName) {
+    case 'dough':
+      return 'Ciasto:'
+    case 'filling':
+      return 'Farsz:'
+    case 'dough_preparation':
+      return 'Ciasto:'
+    case 'filling_preparation':
+      return 'Farsz:'
+    case 'forming_and_cooking_dumplings':
+      return 'Formowanie i gotowanie pierogów:'
+    case 'serving':
+      return ''
+    default:
+      return null
+  }
 }

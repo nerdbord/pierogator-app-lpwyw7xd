@@ -122,7 +122,9 @@ const CreateDumpling = () => {
         <SectionHeader>Przepis</SectionHeader>
         <div className={styles.buttonWrapper}>
           {isPending && <Loader />}
-          <Button onClick={fetchRecipe}>Generuj</Button>
+          <Button onClick={fetchRecipe} disabled={isPending}>
+            Generuj
+          </Button>
         </div>
       </div>
       <TextField

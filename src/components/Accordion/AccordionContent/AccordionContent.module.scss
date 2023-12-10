@@ -1,4 +1,5 @@
 ﻿.sectionTitle {
+  margin-bottom: 10px;
     color: var(--Dark-green, #002902);
     font-family: Poppins;
     font-size: 14px;
@@ -9,6 +10,9 @@
   }
   
   .sectionItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     color: var(--Dark-green, #002902);
     font-family: Poppins;
     font-size: 14px;
