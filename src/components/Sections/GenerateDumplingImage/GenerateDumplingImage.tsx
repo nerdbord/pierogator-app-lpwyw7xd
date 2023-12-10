@@ -17,7 +17,7 @@ interface Props {
 }
 
 function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
-  const { dumplingBase, setDumplingBase } = useDumplingStore()
+  const { dumplingBase, setDumplingBase, setToast } = useDumplingStore()
   const [image, setImage] = useState(dumplingBase.imgUrl)
   const [name, setName] = useState(dumplingBase.name)
   const router = useRouter()
@@ -46,6 +46,7 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
         setName(name)
       } catch (error) {
         console.log(error)
+        setToast({variant: "error", msg: "Ups! Coś poszło nie tak 😳"})
       }
     })
   }
