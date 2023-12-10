@@ -40,7 +40,7 @@ export async function generateRecipe({
   const doughIngredientsPrompt = ` WYŚWIETL PRZYKŁADOWE SKŁADNIKI NA CIASTO (${doughDescription}) DO PIEROGÓW W PONUMEROWANEJ LIŚCIE. LISTĘ <UL> POPRZEDŹ ZNAKIEM SPECJALNYM "$" TYLKO JEDEN RAZ "1. nazwa składnika ilosc składnika
   2. nazwa składnika ilosc składnika
   3. nazwa składnika ilosc składnika
-  4. nazwa składnika ilosc składnika". ZACHOWAJ FORMAT PONUMEROWANEJ LISTY NIE PISZ NIC WIĘCEJ Następnie liste oddziel znakiem % i po tym znaku podaj przykładowy sposób przygotowaia ciasta  Bez id: ${Math.floor(Math.random() * 1000)} `
+  4. nazwa składnika ilosc składnika". ZACHOWAJ FORMAT PONUMEROWANEJ LISTY NIE PISZ NIC WIĘCEJ Następnie liste oddziel znakiem % i po tym znaku podaj przykładowy sposób przygotowaia ciasta  Bez id: ${Math.floor(Math.random() * 1000)}`
 
   const fillingIngredientsPrompt = `WYŚWIETL PRZYKŁADOWE SKŁADNIKI NA FARSZ (np. te${ingredientsDescription}) DO PIEROGÓW W PONUMEROWANEJ LIŚCIE. LISTĘ <UL> POPRZEDŹ ZNAKIEM SPECJALNYM "#" TYLKO JEDEN RAZ  "1. nazwa składnika, ilosc składnika
   2. nazwa składnika, ilosc składnika

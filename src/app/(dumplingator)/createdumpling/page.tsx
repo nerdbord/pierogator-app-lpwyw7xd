@@ -13,6 +13,7 @@ import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { generateRecipe } from '@/services/actions/generateRecipe/generateRecipe'
 import Image from 'next/image'
 import BigImage from '@/components/BigImage/BigImage'
+import { defaultValues } from '@/fakeData/fakeData'
 
 const CreateDumpling = () => {
   const parseRecipeData = (doughData: string, fillingData: string) => {
@@ -82,9 +83,19 @@ const CreateDumpling = () => {
           doughDescription: dumplingBase.dough,
           ingredientsDescription: dumplingBase.ingredients,
         })
-        const parsedData = parseRecipeData(doughIngredients, fillingIngredients)
-        setParsedRecipe(parsedData)
+        if (doughIngredients && fillingIngredients) {
+          const parsedData = parseRecipeData(
+            doughIngredients,
+            fillingIngredients,
+          )
+          console.log(parsedData)
+          setParsedRecipe(parsedData)
+        } else {
+          setParsedRecipe(defaultValues)
+          console.error('Missing doughIngredients or fillingIngredients')
+        }
       } catch (error) {
+        setParsedRecipe(defaultValues)
         console.error('Error generating recipe:', error)
       }
     })
@@ -113,34 +124,41 @@ const CreateDumpling = () => {
         iconState="none"
         onChange={() => console.log('yumyum')}
       />
-      <div className={styles.accordionsWrapper}>
-        <Accordion
-          header={'Składniki'}
-          title1="Ciasto"
-          title2="Farsz"
-          item1={createMarkup(parsedRecipe.ingredientsDough)}
-          item2={createMarkup(parsedRecipe.ingredientsFilling)}
-        />
-        <Accordion
-          header={'Przygotowanie'}
-          title1="Ciasto"
-          title2="Farsz"
-          title3="Formowanie i gotowanie pierogów:"
-          item1={createMarkup(parsedRecipe.preparationDough)}
-          item2={createMarkup(parsedRecipe.preparationFilling)}
-          item3={createMarkup(parsedRecipe.cookingMethod)}
-        />
-        <div className={styles.servingWrapper}>
-          <Accordion
-            header={'Podawanie'}
-            title1=""
-            item1={createMarkup(parsedRecipe.servingMethod)}
-          />
-        </div>
-      </div>
-      <Button variant="action" onClick={handleNavigate}>
-        Udostępnij pieroga
-      </Button>
+      {parsedRecipe.ingredientsDough && (
+        <>
+          <div className={styles.accordionsWrapper}>
+            <Accordion
+              isAccordionOpen={true}
+              header={'Składniki'}
+              title1="Ciasto"
+              title2="Farsz"
+              item1={createMarkup(parsedRecipe.ingredientsDough)}
+              item2={createMarkup(parsedRecipe.ingredientsFilling)}
+            />
+            <Accordion
+              isAccordionOpen={true}
+              header={'Przygotowanie'}
+              title1="Ciasto"
+              title2="Farsz"
+              title3="Formowanie i gotowanie pierogów:"
+              item1={createMarkup(parsedRecipe.preparationDough)}
+              item2={createMarkup(parsedRecipe.preparationFilling)}
+              item3={createMarkup(parsedRecipe.cookingMethod)}
+            />
+            <div className={styles.servingWrapper}>
+              <Accordion
+                isAccordionOpen={true}
+                header={'Podawanie'}
+                title1=""
+                item1={createMarkup(parsedRecipe.servingMethod)}
+              />
+            </div>
+          </div>
+          <Button variant="action" onClick={handleNavigate}>
+            Udostępnij pieroga
+          </Button>
+        </>
+      )}
     </div>
   )
 }

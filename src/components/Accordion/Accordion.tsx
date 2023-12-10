@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Accordion.module.scss'
 import { Arrow } from '../../assets/icons/Arrow/Arrow'
 
@@ -11,6 +11,7 @@ interface AccordionProps {
   item2?: string | React.ReactNode
   title3?: string
   item3?: string | React.ReactNode
+  isAccordionOpen?: boolean 
 }
 
 export const Accordion = ({
@@ -21,9 +22,16 @@ export const Accordion = ({
   item2,
   title3,
   item3,
+  isAccordionOpen
 }: AccordionProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  useEffect(() => {
+    if (isAccordionOpen !== undefined) {
+      setIsOpen(isAccordionOpen);
+    }
+  }, [isAccordionOpen]);
+  
   const handleSwitch = () => {
     setIsOpen(!isOpen)
   }
@@ -37,16 +45,16 @@ export const Accordion = ({
         </span>
       </div>
       {isOpen && (
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>{title1}</h3>
+        <div className={title1 && styles.section}>
+          <h3 className={title1 && styles.sectionTitle}>{title1}</h3>
           <ul className={styles.sectionItems}>
             <li>{item1}</li>
           </ul>
-          <h3 className={styles.sectionTitle}>{title2}</h3>
+          <h3 className={title2 && styles.sectionTitle}>{title2}</h3>
           <ul className={styles.sectionItems}>
             <li>{item2}</li>
           </ul>
-          <h3 className={styles.sectionTitle}>{title3}</h3>
+          <h3 className={title3 && styles.sectionTitle}>{title3}</h3>
           <ul className={styles.sectionItems}>
             <li>{item3}</li>
           </ul>
