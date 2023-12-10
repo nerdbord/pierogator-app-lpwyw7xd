@@ -1,4 +1,5 @@
 'use server'
+import { revalidatePath } from "next/cache";
 
 export async function getPublicDumplings() {
   try {
@@ -19,7 +20,7 @@ export async function getPublicDumplings() {
     }
 
     const res = await response.json()
-
+    revalidatePath("/dumplinghub")
     return res.recipes
   } catch (error) {
     console.error('Error fetching public dumplings:', error)

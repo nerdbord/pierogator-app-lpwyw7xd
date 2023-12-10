@@ -14,6 +14,7 @@ import { generateRecipe } from '@/services/actions/generateRecipe/generateRecipe
 import Image from 'next/image'
 import BigImage from '@/components/BigImage/BigImage'
 import { defaultValues } from '@/fakeData/fakeData'
+import { addDumpling } from '@/services/actions/addDumpling/addDumpling'
 
 const CreateDumpling = () => {
   const parseRecipeData = (doughData: string, fillingData: string) => {
@@ -63,9 +64,7 @@ const CreateDumpling = () => {
   const handleBackClick = () => {
     router.back()
   }
-  const handleNavigate = () => {
-    router.push('/dumplinghub')
-  }
+
   const [parsedRecipe, setParsedRecipe] = useState({
     ingredientsDough: '',
     preparationDough: '',
@@ -74,7 +73,7 @@ const CreateDumpling = () => {
     cookingMethod: '',
     servingMethod: '',
   })
-  const { dumplingBase } = useDumplingStore()
+  const { dumplingBase, resetBase } = useDumplingStore()
 
   const fetchRecipe = () => {
     startTransition(async () => {
@@ -101,6 +100,41 @@ const CreateDumpling = () => {
     })
   }
 
+  const addDumplingAndNavigate = () => {
+    startTransition(async () => {
+      try {
+        await addDumpling(tmpPayload)
+        resetBase()
+        router.push('/dumplinghub')
+      } catch (error) {
+        console.error('Error adding dumpling:', error)
+      }
+    })
+  }
+
+  const tmpPayload = {
+    name: dumplingBase.name,
+    imageSrc: dumplingBase.imgUrl,
+    ingredients: {
+      dough: [
+        { name: 'Flour', quantity: '2 cups' },
+        { name: 'Water', quantity: '1 cup' },
+      ],
+      filling: [
+        { name: 'Potatoes', quantity: '3 cups' },
+        { name: 'Onion', quantity: '1 cup' },
+      ],
+    },
+    instructions: {
+      dough_preparation: ['Mix flour and water', 'Knead the dough'],
+      filling_preparation: ['Cook potatoes', 'Chop onions'],
+      forming_and_cooking_dumplings: [
+        'Roll the dough',
+        'Add filling and shape dumplings',
+      ],
+      serving: ['Boil dumplings', 'Serve hot'],
+    },
+  }
   return (
     <div className={styles.container}>
       <div className={styles.headerWrapper}>
@@ -154,8 +188,12 @@ const CreateDumpling = () => {
               />
             </div>
           </div>
-          <Button variant="action" onClick={handleNavigate}>
-            Udostępnij pieroga
+          <Button
+            variant="action"
+            onClick={addDumplingAndNavigate}
+            disabled={isPending}
+          >
+            {isPending ? "Udostępnianie...":"Udostępnij pieroga"}
           </Button>
         </>
       )}

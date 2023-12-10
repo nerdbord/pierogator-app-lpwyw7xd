@@ -1,17 +1,21 @@
 'use server'
 
-export async function deleteDumpling(id: string) {
+import type { DumplingRecipe } from '@/types/types'
+
+export async function addDumpling(payload: DumplingRecipe) {
   try {
     const response = await fetch(
-      `https://training.nerdbord.io/api/v1/pierogator/dumpling-recipes/${id}`,
+      'https://training.nerdbord.io/api/v1/pierogator/dumpling-recipes',
       {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `${process.env.API_KEY}`,
           'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
+        body: JSON.stringify(payload),
       },
     )
 
@@ -22,7 +26,7 @@ export async function deleteDumpling(id: string) {
     const res = await response.json()
     return res
   } catch (error) {
-    console.error('Error deleting dumpling:', error)
+    console.error('Error adding new dumpling:', error)
     throw new Error(`HTTP error! status: ${error}`)
   }
 }
