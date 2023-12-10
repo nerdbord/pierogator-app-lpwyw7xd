@@ -1,6 +1,6 @@
 ﻿/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import React, { useTransition } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import TextField from '@/components/TextField/TextField'
 import { Button } from '@/components/Button/Button'
 import Loader from '@/components/Loader/Loader'
@@ -30,6 +30,8 @@ const extractData = (apiResponse: string, key: string) => {
 const CreateDumpling = () => {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
+  const [recipeComments, setRecipeComments] = useState('')
+  const [isSharing, setIsSharing] = useState(false)
 
   const {
     dumplingBase,
@@ -46,6 +48,7 @@ const CreateDumpling = () => {
           await generateRecipe({
             doughDescription: dumplingBase.dough,
             ingredientsDescription: dumplingBase.ingredients,
+            recipeComments,
           })
 
         const updateData = (data: string | null, key: string) => {
@@ -93,6 +96,7 @@ const CreateDumpling = () => {
   }
 
   const addDumplingAndNavigate = () => {
+    setIsSharing(true)
     startTransition(async () => {
       if (dumplingRecipe) {
         try {
@@ -103,10 +107,16 @@ const CreateDumpling = () => {
         } catch (error) {
           console.error('Error adding dumpling:', error)
           setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
+        } finally {
+          setIsSharing(false)
         }
       }
     })
   }
+
+  useEffect(() => {
+    !dumplingBase.imgUrl && router.push('/')
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -131,7 +141,8 @@ const CreateDumpling = () => {
         label="Uwagi do przepisu"
         placeholder="chrupiące pierogi bez pieczenia, bez użycia miksera"
         iconState="none"
-        onChange={() => console.log('yumyum')}
+        value={recipeComments}
+        onChange={(e) => setRecipeComments(e.target.value)}
       />
       {dumplingRecipe && (
         <>
@@ -163,9 +174,9 @@ const CreateDumpling = () => {
           <Button
             variant="action"
             onClick={addDumplingAndNavigate}
-            disabled={isPending}
+            disabled={isSharing}
           >
-            {isPending ? 'Udostępnianie...' : 'Udostępnij pieroga'}
+            {isSharing ? 'Udostępnianie...' : 'Udostępnij pieroga'}
           </Button>
         </>
       )}
