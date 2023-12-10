@@ -33,7 +33,6 @@ const Dumplinghub = () => {
   const getAllDumplings = () => {
     startTransition(async () => {
       try {
-        console.log('Loading dumplings')
         setPublicDumplings(await getPublicDumplings())
         setMyDumplings(await getMyDumplings())
       } catch (error) {
