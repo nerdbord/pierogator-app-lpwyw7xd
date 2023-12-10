@@ -33,22 +33,64 @@ async function fetchFromAPI(prompt: string) {
   return data.choices[0].message.content
 }
 
-export async function generateRecipe({
-  doughDescription,
-  ingredientsDescription
-}: GenerateRecipeProps) {
-  const doughIngredientsPrompt = ` WYŚWIETL PRZYKŁADOWE SKŁADNIKI NA CIASTO (${doughDescription}) DO PIEROGÓW W PONUMEROWANEJ LIŚCIE. LISTĘ <UL> POPRZEDŹ ZNAKIEM SPECJALNYM "$" TYLKO JEDEN RAZ "1. nazwa składnika ilosc składnika
-  2. nazwa składnika ilosc składnika
-  3. nazwa składnika ilosc składnika
-  4. nazwa składnika ilosc składnika". ZACHOWAJ FORMAT PONUMEROWANEJ LISTY NIE PISZ NIC WIĘCEJ Następnie liste oddziel znakiem % i po tym znaku podaj przykładowy sposób przygotowaia ciasta  Bez id: ${Math.floor(Math.random() * 1000)}`
+export async function generateRecipe({doughDescription, ingredientsDescription}: GenerateRecipeProps) {
+  const prompt1 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWE SKŁADNIKI PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW LOSOWE DANE TYLKO INNE NIŻ PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
+  
+  "ingredients": {
+    "dough": [
+      { "name": "Mąka", "quantity": "2 szklanki" },
+      { "name": "Woda", "quantity": "1 szklanka" }
+      { "name": "Płatki owsiane", "quantity": "50g" }
+    ],
+    "filling": [
+      { "name": "ziemniaki", "quantity": "1 kilogram" },
+      { "name": "cebula", "quantity": "1 kilogram" }
+      { "name": "tuńczyk", "quantity": "100 g" }
+      { "name": "Orzechy włoskie", "quantity": "garść" }
+    ]
+  }
 
-  const fillingIngredientsPrompt = `WYŚWIETL PRZYKŁADOWE SKŁADNIKI NA FARSZ (np. te${ingredientsDescription}) DO PIEROGÓW W PONUMEROWANEJ LIŚCIE. LISTĘ <UL> POPRZEDŹ ZNAKIEM SPECJALNYM "#" TYLKO JEDEN RAZ  "1. nazwa składnika, ilosc składnika
-  2. nazwa składnika, ilosc składnika
-  3. nazwa składnika, ilosc składnika
-  4. nazwa składnika, ilosc składnika". ZACHOWAJ FORMAT PONUMEROWANEJ LISTY NIE PISZ NIC WIĘCEJ Następnie liste oddziel znakiem % i po tym znaku podaj przykładowy sposób przygotowaia farszu. Nasstępnie oddziel to znakiem & i podaj przykładowy sposób przygotowania i gotowania pierogów z takim farszem. następnie oddziel to znakiem ^ i podaj przykładowy sposób serwowania pierogów Bez id: ${Math.floor(Math.random() * 1000)} `
+  TO WSZYSTKO PODAJ W POWYŻSZYM FORMACIE CZYLI JSON
+Bez id: ${Math.floor(Math.random() * 1000)}`
 
-  const doughIngredients = await fetchFromAPI(doughIngredientsPrompt)
-  const fillingIngredients = await fetchFromAPI(fillingIngredientsPrompt)
+const prompt2 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWE PRZYGOTOWANIE CIASTA I FARSZU PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW LOSOWE DANE TYLKO INNE NIŻ PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
+  
+"instructions": {
+  "dough_preparation": [
+    "wymieszaj mąke",
+    "wbij jajka",
+    "dolej mleka i wymieszaj"
+  ],
+  "filling_preparation": [
+    "ugotuj ziemniaki",
+    "pokrój cebule",
+    "dodaj orzechy i wymieszaj"
+  ]
 
-  return { doughIngredients, fillingIngredients }
+TO WSZYSTKO PODAJ W POWYŻSZYM FORMACIE CZYLI JSON
+Bez id: ${Math.floor(Math.random() * 1000)}`
+
+const prompt3 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWY SPOSÓB FORMOWANIA I SERWOWANIA PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW SPOSOBY FORMOWANIA I SERWOWANIA TYLKO INNE NIŻ W PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
+
+"instructions": { 
+"cooking": [
+  "Posyp mąką",
+  "Nałóż farsz",
+  "Zawiń pierogi"
+],
+"serving": [
+  "Gotuj pierogi 5 minut",
+  "Podawaj gorące",
+  "Polej ulubionym sosem",
+]
+
+TO WSZYSTKO PODAJ W POWYŻSZYM FORMACIE CZYLI JSON
+Bez id: ${Math.floor(Math.random() * 1000)}`
+
+
+const ingredients= await fetchFromAPI(prompt1)
+const preparation = await fetchFromAPI(prompt2)
+const cookingServing = await fetchFromAPI(prompt3)
+return { ingredients, preparation, cookingServing }
+
 }

@@ -13,51 +13,11 @@ import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { generateRecipe } from '@/services/actions/generateRecipe/generateRecipe'
 import Image from 'next/image'
 import BigImage from '@/components/BigImage/BigImage'
-import { defaultValues } from '@/fakeData/fakeData'
+import fakeDatabase from '@/fakeData/fakeData'
 import { addDumpling } from '@/services/actions/addDumpling/addDumpling'
 
 const CreateDumpling = () => {
-  const parseRecipeData = (doughData: string, fillingData: string) => {
-    const formatText = (text: string) =>
-      text
-        .replace(/[$#]/g, ' ')
-        .replace(/^[^:]*:/gm, '')
-        .replace(/(\d+\.)\s/g, '|NEWLINE|$1 ')
-        .trim()
-
-    const splitDoughData = doughData.split('%')
-    const ingredientsDough = formatText(splitDoughData[0])
-    const preparationDough = formatText(splitDoughData[1])
-
-    const splitFillingData = fillingData.split('%')
-    const ingredientsFilling = formatText(splitFillingData[0])
-    const preparationFilling = formatText(splitFillingData[1].split('&')[0])
-    const cookingMethod = formatText(
-      splitFillingData[1].split('&')[1].split('^')[0],
-    )
-    const servingMethod = formatText(splitFillingData[1].split('^')[1])
-
-    return {
-      ingredientsDough,
-      preparationDough,
-      ingredientsFilling,
-      preparationFilling,
-      cookingMethod,
-      servingMethod,
-    }
-  }
-
-  const createMarkup = (text: string) => {
-    const newText = text.split('|NEWLINE|').map((item, index) => (
-      <React.Fragment key={index}>
-        {item}
-        <br />
-        <br />
-      </React.Fragment>
-    ))
-    return newText
-  }
-
+ 
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
@@ -65,41 +25,56 @@ const CreateDumpling = () => {
     router.back()
   }
 
-  const [parsedRecipe, setParsedRecipe] = useState({
-    ingredientsDough: '',
-    preparationDough: '',
-    ingredientsFilling: '',
-    preparationFilling: '',
-    cookingMethod: '',
-    servingMethod: '',
-  })
-  const { dumplingBase, resetBase, setToast } = useDumplingStore()
 
-  const fetchRecipe = () => {
+  const { dumplingBase, resetBase, setDumplingRecipe, setToast } = useDumplingStore()
+
+  const extractData = (apiResponse: string, key: string) => {
+    const regex = new RegExp(`"${key}": \\[(.*?)\\]`, 's');
+    const match = apiResponse.match(regex);
+    return match && match[1] ? `[${match[1]}]` : null;
+  };
+
+  const fetchRecipe = async () => {
     startTransition(async () => {
       try {
-        const { doughIngredients, fillingIngredients } = await generateRecipe({
+        const { ingredients, preparation, cookingServing } = await generateRecipe({
           doughDescription: dumplingBase.dough,
           ingredientsDescription: dumplingBase.ingredients,
-        })
-        if (doughIngredients && fillingIngredients) {
-          const parsedData = parseRecipeData(
-            doughIngredients,
-            fillingIngredients,
-          )
-          console.log(parsedData)
-          setParsedRecipe(parsedData)
-        } else {
-          setParsedRecipe(defaultValues)
-          console.error('Missing doughIngredients or fillingIngredients')
-        }
-      } catch (error) {
-        setParsedRecipe(defaultValues)
-        console.error('Error generating recipe:', error)
-      }
-    })
-  }
+        });
 
+        const updateData = (data: string | null, key: string) => {
+          if (data) {
+            return JSON.parse(data);
+          } else {
+            const options = fakeDatabase[key];
+            const randomIndex = Math.floor(Math.random() * options.length);
+            return options[randomIndex];
+          }
+        };
+        const newDumplingRecipe = {
+          name: dumplingBase.name,
+          imageSrc: dumplingBase.imgUrl,
+          ingredients: { 
+            dough: updateData(extractData(ingredients, 'dough'), 'dough'),
+            filling: updateData(extractData(ingredients, 'filling'), 'filling')
+          },
+          instructions: {
+            dough_preparation: updateData(extractData(preparation, 'dough_preparation'), 'dough_preparation'),
+            filling_preparation: updateData(extractData(preparation, 'filling_preparation'), 'filling_preparation'),
+            forming_and_cooking_dumplings: updateData(extractData(cookingServing, 'cooking'), 'cooking'),
+            serving: updateData(extractData(cookingServing, 'serving'), 'serving')
+          }
+        };
+
+        setDumplingRecipe(newDumplingRecipe);
+        console.log('Updated Dumpling Recipe:', newDumplingRecipe);
+      } catch (error) {
+        console.error('Error during ingredients generation:', error);
+      }
+    });
+  };
+
+// TO NIŻEJ JEST OD KUBY TEMPLATKI JAKIEŚ, AKORDEON ZAKOMENTOWAŁEM BO TERAZ DANE SIE NIE ZGADZAJĄ
   const addDumplingAndNavigate = () => {
     startTransition(async () => {
       try {
@@ -160,7 +135,8 @@ const CreateDumpling = () => {
         iconState="none"
         onChange={() => console.log('yumyum')}
       />
-      {parsedRecipe.ingredientsDough && (
+{/*
+
         <>
           <div className={styles.accordionsWrapper}>
             <Accordion
@@ -198,7 +174,7 @@ const CreateDumpling = () => {
             {isPending ? "Udostępnianie...":"Udostępnij pieroga"}
           </Button>
         </>
-      )}
+*/}
     </div>
   )
 }

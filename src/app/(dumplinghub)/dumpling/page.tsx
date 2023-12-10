@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { Accordion } from '@/components/Accordion/Accordion'
-import { podawanie, przygotowanie, skladniki } from '@/fakeData/fakeData'
 import BigImage from '@/components/BigImage/BigImage'
 
 const Dumpling = () => {
