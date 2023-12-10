@@ -36,6 +36,10 @@
     }
   }
   
+  .input:disabled {
+    opacity: 1;
+  }
+
   .label {
     display: block;
     color: var(--Dark-green, #002902);
