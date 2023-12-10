@@ -1,3 +1,4 @@
+'use client'
 import create from 'zustand'
 import { DumplingBase, DumplingRecipe } from '@/types/types'
 
@@ -67,7 +68,8 @@ export const useDumplingStore = create<DumplingStore>((set) => ({
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState))
       return newState
     }),
-  resetBase: () => set({ dumplingBase: initBase }),
+    resetBase: () => set({ dumplingBase: initBase }),
 }))
 
 export default useDumplingStore
+
