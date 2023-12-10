@@ -1,6 +1,6 @@
 ﻿/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import React, { useEffect, useState, useTransition } from 'react'
+import React, { useTransition } from 'react'
 import TextField from '@/components/TextField/TextField'
 import { Button } from '@/components/Button/Button'
 import Loader from '@/components/Loader/Loader'
@@ -11,32 +11,25 @@ import styles from './page.module.scss'
 import { useRouter } from 'next/navigation'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { generateRecipe } from '@/services/actions/generateRecipe/generateRecipe'
-import Image from 'next/image'
 import BigImage from '@/components/BigImage/BigImage'
 import fakeDatabase from '@/fakeData/fakeData'
 import { addDumpling } from '@/services/actions/addDumpling/addDumpling'
-import { Ingredient } from '@/types/types'
-import { format } from 'path'
+import {
+  ingredientsContent,
+  instructionsContent,
+} from '@/components/Accordion/AccordionContent/AccordionContent'
+import NavigateButton from '@/components/NavigateButton/NavigateButton'
+import { AppRoutes } from '@/utils/routes'
 
-interface Ingredients {
-  dough: Ingredient[]
-  filling: Ingredient[]
-}
-
-interface Instructions {
-  dough_preparation: string[]
-  filling_preparation: string[]
-  forming_and_cooking_dumplings: string[]
-  serving: string[]
+const extractData = (apiResponse: string, key: string) => {
+  const regex = new RegExp(`"${key}": \\[(.*?)\\]`, 's')
+  const match = apiResponse.match(regex)
+  return match && match[1] ? `[${match[1]}]` : null
 }
 
 const CreateDumpling = () => {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
-
-  const handleBackClick = () => {
-    router.back()
-  }
 
   const {
     dumplingBase,
@@ -45,12 +38,6 @@ const CreateDumpling = () => {
     setDumplingRecipe,
     setToast,
   } = useDumplingStore()
-
-  const extractData = (apiResponse: string, key: string) => {
-    const regex = new RegExp(`"${key}": \\[(.*?)\\]`, 's')
-    const match = apiResponse.match(regex)
-    return match && match[1] ? `[${match[1]}]` : null
-  }
 
   const fetchRecipe = async () => {
     startTransition(async () => {
@@ -105,85 +92,27 @@ const CreateDumpling = () => {
     })
   }
 
-  // TO NIŻEJ JEST OD KUBY TEMPLATKI JAKIEŚ, AKORDEON ZAKOMENTOWAŁEM BO TERAZ DANE SIE NIE ZGADZAJĄ
   const addDumplingAndNavigate = () => {
     startTransition(async () => {
-      try {
-        await addDumpling(tmpPayload)
-        resetBase()
-        router.push('/dumplinghub')
-        setToast({ variant: 'success', msg: 'Yeah! Pieróg dodany ❤️‍🔥' })
-      } catch (error) {
-        console.error('Error adding dumpling:', error)
-        setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
+      if (dumplingRecipe) {
+        try {
+          await addDumpling(dumplingRecipe)
+          resetBase()
+          router.push('/dumplinghub')
+          setToast({ variant: 'success', msg: 'Yeah! Pieróg dodany ❤️‍🔥' })
+        } catch (error) {
+          console.error('Error adding dumpling:', error)
+          setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
+        }
       }
     })
   }
-
-  const tmpPayload = {
-    name: dumplingBase.name,
-    imageSrc: dumplingBase.imgUrl,
-    ingredients: {
-      dough: [
-        { name: 'Flour', quantity: '2 cups' },
-        { name: 'Water', quantity: '1 cup' },
-      ],
-      filling: [
-        { name: 'Potatoes', quantity: '3 cups' },
-        { name: 'Onion', quantity: '1 cup' },
-      ],
-    },
-    instructions: {
-      dough_preparation: ['Mix flour and water', 'Knead the dough'],
-      filling_preparation: ['Cook potatoes', 'Chop onions'],
-      forming_and_cooking_dumplings: [
-        'Roll the dough',
-        'Add filling and shape dumplings',
-      ],
-      serving: ['Boil dumplings', 'Serve hot'],
-    },
-  }
-
-  const formatIngredients = (ingredients: Ingredients) => {
-    return Object.keys(ingredients).map((category) => {
-      return (
-        <React.Fragment key={category}>
-          <h3 className={styles.sectionTitle}>{category}:</h3>
-          <ul className={styles.sectionItems}>
-            {ingredients[category as keyof Ingredients].map((item, index) => (
-              <li key={index}>{`${index + 1}. ${item.name} ${
-                item.quantity
-              }`}</li>
-            ))}
-          </ul>
-        </React.Fragment>
-      )
-    })
-  }
-
-  const formatInstructions = (
-    instructions: Instructions,
-    ...sections: string[]
-  ) => {
-    return sections.map((category) => (
-      <React.Fragment key={category}>
-        <h3 className={styles.sectionTitle}>{category.replace(/_/g, ' ')}:</h3>
-        <ul className={styles.sectionItems}>
-          {instructions[category as keyof Instructions].map((step, index) => (
-            <li key={index}>{`${index + 1}. ${step}`}</li>
-          ))}
-        </ul>
-      </React.Fragment>
-    ))
-  }
-
-  console.log(formatInstructions(dumplingRecipe.instructions))
 
   return (
     <div className={styles.container}>
       <div className={styles.headerWrapper}>
         <SectionHeader>Pieróg</SectionHeader>
-        <Button onClick={handleBackClick}>Zmień</Button>
+        <NavigateButton url={AppRoutes.home}>Zmień</NavigateButton>
       </div>
       <BigImage src={dumplingBase.imgUrl} />
       <div className={styles.dumlingNameWrapper}>
@@ -202,42 +131,42 @@ const CreateDumpling = () => {
         iconState="none"
         onChange={() => console.log('yumyum')}
       />
-
-      <>
-        <div className={styles.accordionsWrapper}>
-          <Accordion
-            isAccordionOpen={true}
-            header={'Składniki'}
-            sections={formatIngredients(dumplingRecipe.ingredients)}
-          />
-          <Accordion
-            isAccordionOpen={true}
-            header={'Przygotowanie'}
-            sections={formatInstructions(
-              dumplingRecipe.instructions,
-              'dough_preparation',
-              'filling_preparation',
-              'forming_and_cooking_dumplings',
-            )}
-          />
-
-          <Accordion
-            isAccordionOpen={true}
-            header={'Podawanie'}
-            sections={formatInstructions(
-              dumplingRecipe.instructions,
-              'serving',
-            )}
-          />
-        </div>
-        <Button
-          variant="action"
-          onClick={addDumplingAndNavigate}
-          disabled={isPending}
-        >
-          {isPending ? 'Udostępnianie...' : 'Udostępnij pieroga'}
-        </Button>
-      </>
+      {dumplingRecipe && (
+        <>
+          <div className={styles.accordionsWrapper}>
+            <Accordion
+              isAccordionOpen={true}
+              header={'Składniki'}
+              sections={ingredientsContent(dumplingRecipe.ingredients)}
+            />
+            <Accordion
+              isAccordionOpen={true}
+              header={'Przygotowanie'}
+              sections={instructionsContent(
+                dumplingRecipe.instructions,
+                'dough_preparation',
+                'filling_preparation',
+                'forming_and_cooking_dumplings',
+              )}
+            />
+            <Accordion
+              isAccordionOpen={true}
+              header={'Podawanie'}
+              sections={instructionsContent(
+                dumplingRecipe.instructions,
+                'serving',
+              )}
+            />
+          </div>
+          <Button
+            variant="action"
+            onClick={addDumplingAndNavigate}
+            disabled={isPending}
+          >
+            {isPending ? 'Udostępnianie...' : 'Udostępnij pieroga'}
+          </Button>
+        </>
+      )}
     </div>
   )
 }
