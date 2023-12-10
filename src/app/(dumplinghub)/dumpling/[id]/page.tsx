@@ -32,12 +32,12 @@ const Dumpling = async ({ params }: { params: { id: string } }) => {
       <div className={styles.accordionsWrapper}>
         <Accordion
           header={'Składniki'}
-          isAccordionOpen={false}
+          isAccordionOpen={true}
           sections={ingredientsContent(recipe.ingredients)}
         />
         <Accordion
           header={'Przygotowanie'}
-          isAccordionOpen={false}
+          isAccordionOpen={true}
           sections={instructionsContent(
             recipe.instructions,
             'dough_preparation',
@@ -47,7 +47,7 @@ const Dumpling = async ({ params }: { params: { id: string } }) => {
         />
         <Accordion
           header={'Podawanie'}
-          isAccordionOpen={false}
+          isAccordionOpen={true}
           sections={instructionsContent(recipe.instructions, 'serving')}
         />
       </div>
