@@ -23,7 +23,7 @@ const barriecito = Barriecito({
 })
 
 export const metadata: Metadata = {
-  title: 'Pierogator',
+  title: '🥟 Pierogator',
   description: 'An application that generates dumplings using AI',
   // viewport: 'width=device-width, initial-scale=1',
 }
