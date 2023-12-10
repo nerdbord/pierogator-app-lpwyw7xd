@@ -82,21 +82,24 @@ const CreateDumpling = () => {
         const { doughIngredients, fillingIngredients } = await generateRecipe({
           doughDescription: dumplingBase.dough,
           ingredientsDescription: dumplingBase.ingredients,
-        });
+        })
         if (doughIngredients && fillingIngredients) {
-          const parsedData = parseRecipeData(doughIngredients, fillingIngredients);
-          console.log(parsedData);
-          setParsedRecipe(parsedData);
+          const parsedData = parseRecipeData(
+            doughIngredients,
+            fillingIngredients,
+          )
+          console.log(parsedData)
+          setParsedRecipe(parsedData)
         } else {
-setParsedRecipe(defaultValues)
-          console.error('Missing doughIngredients or fillingIngredients');
+          setParsedRecipe(defaultValues)
+          console.error('Missing doughIngredients or fillingIngredients')
         }
       } catch (error) {
         setParsedRecipe(defaultValues)
-        console.error('Error generating recipe:', error);
+        console.error('Error generating recipe:', error)
       }
-    });
-  };
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -121,10 +124,11 @@ setParsedRecipe(defaultValues)
         iconState="none"
         onChange={() => console.log('yumyum')}
       />
-      { parsedRecipe.ingredientsDough &&
+      {parsedRecipe.ingredientsDough && (
         <>
           <div className={styles.accordionsWrapper}>
             <Accordion
+              isAccordionOpen={true}
               header={'Składniki'}
               title1="Ciasto"
               title2="Farsz"
@@ -132,6 +136,7 @@ setParsedRecipe(defaultValues)
               item2={createMarkup(parsedRecipe.ingredientsFilling)}
             />
             <Accordion
+              isAccordionOpen={true}
               header={'Przygotowanie'}
               title1="Ciasto"
               title2="Farsz"
@@ -142,6 +147,7 @@ setParsedRecipe(defaultValues)
             />
             <div className={styles.servingWrapper}>
               <Accordion
+                isAccordionOpen={true}
                 header={'Podawanie'}
                 title1=""
                 item1={createMarkup(parsedRecipe.servingMethod)}
@@ -152,7 +158,7 @@ setParsedRecipe(defaultValues)
             Udostępnij pieroga
           </Button>
         </>
-      }
+      )}
     </div>
   )
 }
