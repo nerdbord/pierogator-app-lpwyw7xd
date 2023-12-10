@@ -29,10 +29,10 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
       try {
         await deleteDumpling(item._id as string)
         setRefreshList()
-        setToast({variant: "success", msg: "Pomyślnie usunięto pieroga 🥟 "})
+        setToast({ variant: 'success', msg: 'Pomyślnie usunięto pieroga 🥟 ' })
       } catch (error) {
         console.error('Error getting public dumplings:', error)
-        setToast({variant: "error", msg: "Ups! Coś poszło nie tak 😳"})
+        setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
       }
     })
   }
@@ -49,11 +49,13 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
           style={{ objectFit: 'cover' }}
         />
       </div>
-      <p>{item.name}</p>
+      <p className={styles.name}>{item.name.length > 40 ? `${item.name.slice(0, 38)}..` : item.name}</p>
 
       {withActions && (
         <div className={styles.actions}>
-          <Button onClick={handleOpen} disabled={isPending}>Otwórz</Button>
+          <Button onClick={handleOpen} disabled={isPending}>
+            Otwórz
+          </Button>
           <Button onClick={handleDelete} disabled={isPending}>
             Usuń
           </Button>
