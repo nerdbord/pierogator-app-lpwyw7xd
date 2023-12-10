@@ -43,10 +43,10 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
         const url = await generateImage(promptImage)
         const name = await generateName(promptName)
         setImage(url)
-        setName(name)
+        setName(name.slice(0, 40))
       } catch (error) {
         console.log(error)
-        setToast({variant: "error", msg: "Ups! Coś poszło nie tak 😳"})
+        setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
       }
     })
   }
@@ -61,14 +61,15 @@ function GenerateDumplingImage({ ingredients, dough, filling }: Props) {
           </Button>
         </div>
       </div>
-      {image && name && (
+      {image && (
         <>
           <BigImage src={image} />
           <TextFieldSingle
-            onChange={() => null}
+            onChange={(event) => setName(event.target.value)}
             label="Nazwa"
             value={name}
-            disabled
+            maxLength={40}
+            disabled={isPending}
           />
           <Button
             variant="action"
