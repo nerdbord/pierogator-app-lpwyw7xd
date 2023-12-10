@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEventHandler, useState } from 'react'
+import React, { ChangeEventHandler, useRef } from 'react'
 import styles from './TextFieldSingle.module.scss'
 
 interface TextFieldProps {
@@ -10,6 +10,7 @@ interface TextFieldProps {
   label?: string
   value?: string
   disabled?: boolean
+  maxLength?: number
 }
 
 export const TextField = ({
@@ -19,9 +20,10 @@ export const TextField = ({
   onChange,
   label,
   value,
-  disabled
+  disabled,
+  maxLength = undefined,
 }: TextFieldProps) => {
-
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
     <div className={styles.container}>
@@ -39,8 +41,15 @@ export const TextField = ({
           disabled={disabled}
           onChange={onChange}
           value={value}
+          maxLength={maxLength}
+          ref={inputRef}
         />
       </div>
+      {maxLength &&
+        inputRef.current &&
+        inputRef.current.value.length >= maxLength && (
+          <span className={styles.errorMsg}>Osiągnięto limit 40 znaków.</span>
+        )}
     </div>
   )
 }
