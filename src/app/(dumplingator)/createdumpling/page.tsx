@@ -73,7 +73,7 @@ const CreateDumpling = () => {
     cookingMethod: '',
     servingMethod: '',
   })
-  const { dumplingBase, resetBase } = useDumplingStore()
+  const { dumplingBase, resetBase, setToast } = useDumplingStore()
 
   const fetchRecipe = () => {
     startTransition(async () => {
@@ -106,8 +106,10 @@ const CreateDumpling = () => {
         await addDumpling(tmpPayload)
         resetBase()
         router.push('/dumplinghub')
+        setToast({variant: "success", msg: "Yeah! Pieróg dodany ❤️‍🔥"})
       } catch (error) {
         console.error('Error adding dumpling:', error)
+        setToast({variant: "error", msg: "Ups! Coś poszło nie tak 😳"})
       }
     })
   }

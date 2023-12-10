@@ -16,7 +16,7 @@ interface Props {
 export const Card = ({ item, withActions, imageSize }: Props) => {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-  const { setRefreshList } = useDumplingStore()
+  const { setRefreshList, setToast } = useDumplingStore()
 
   const handleOpen = () => {
     router.push('/dumpling')
@@ -29,8 +29,10 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
       try {
         await deleteDumpling(item._id as string)
         setRefreshList()
+        setToast({variant: "success", msg: "Pomyślnie usunięto pieroga 🥟 "})
       } catch (error) {
         console.error('Error getting public dumplings:', error)
+        setToast({variant: "error", msg: "Ups! Coś poszło nie tak 😳"})
       }
     })
   }
