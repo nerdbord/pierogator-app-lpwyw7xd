@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import { DumplingBase, DumplingRecipe } from '@/types/types'
 
 interface DumplingStore {

@@ -7,10 +7,10 @@ export async function deleteDumpling(id: string) {
       {
         method: 'DELETE',
         headers: {
-          Authorization: `${process.env.API_KEY}`,
+          Authorization: `${process.env.API_KEY_NERDBORD}`,
           'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
       },
     )

@@ -15,9 +15,22 @@ import Image from 'next/image'
 import BigImage from '@/components/BigImage/BigImage'
 import fakeDatabase from '@/fakeData/fakeData'
 import { addDumpling } from '@/services/actions/addDumpling/addDumpling'
+import { Ingredient } from '@/types/types'
+import { format } from 'path'
+
+interface Ingredients {
+  dough: Ingredient[]
+  filling: Ingredient[]
+}
+
+interface Instructions {
+  dough_preparation: string[]
+  filling_preparation: string[]
+  forming_and_cooking_dumplings: string[]
+  serving: string[]
+}
 
 const CreateDumpling = () => {
- 
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
@@ -25,56 +38,69 @@ const CreateDumpling = () => {
     router.back()
   }
 
-
-  const { dumplingBase, resetBase, setDumplingRecipe } = useDumplingStore()
+  const { dumplingBase, resetBase, dumplingRecipe, setDumplingRecipe } =
+    useDumplingStore()
 
   const extractData = (apiResponse: string, key: string) => {
-    const regex = new RegExp(`"${key}": \\[(.*?)\\]`, 's');
-    const match = apiResponse.match(regex);
-    return match && match[1] ? `[${match[1]}]` : null;
-  };
+    const regex = new RegExp(`"${key}": \\[(.*?)\\]`, 's')
+    const match = apiResponse.match(regex)
+    return match && match[1] ? `[${match[1]}]` : null
+  }
 
   const fetchRecipe = async () => {
     startTransition(async () => {
       try {
-        const { ingredients, preparation, cookingServing } = await generateRecipe({
-          doughDescription: dumplingBase.dough,
-          ingredientsDescription: dumplingBase.ingredients,
-        });
+        const { ingredients, preparation, cookingServing } =
+          await generateRecipe({
+            doughDescription: dumplingBase.dough,
+            ingredientsDescription: dumplingBase.ingredients,
+          })
 
         const updateData = (data: string | null, key: string) => {
           if (data) {
-            return JSON.parse(data);
+            return JSON.parse(data)
           } else {
-            const options = fakeDatabase[key];
-            const randomIndex = Math.floor(Math.random() * options.length);
-            return options[randomIndex];
+            const options = fakeDatabase[key]
+            const randomIndex = Math.floor(Math.random() * options.length)
+            return options[randomIndex]
           }
-        };
+        }
         const newDumplingRecipe = {
           name: dumplingBase.name,
           imageSrc: dumplingBase.imgUrl,
-          ingredients: { 
+          ingredients: {
             dough: updateData(extractData(ingredients, 'dough'), 'dough'),
-            filling: updateData(extractData(ingredients, 'filling'), 'filling')
+            filling: updateData(extractData(ingredients, 'filling'), 'filling'),
           },
           instructions: {
-            dough_preparation: updateData(extractData(preparation, 'dough_preparation'), 'dough_preparation'),
-            filling_preparation: updateData(extractData(preparation, 'filling_preparation'), 'filling_preparation'),
-            forming_and_cooking_dumplings: updateData(extractData(cookingServing, 'cooking'), 'cooking'),
-            serving: updateData(extractData(cookingServing, 'serving'), 'serving')
-          }
-        };
+            dough_preparation: updateData(
+              extractData(preparation, 'dough_preparation'),
+              'dough_preparation',
+            ),
+            filling_preparation: updateData(
+              extractData(preparation, 'filling_preparation'),
+              'filling_preparation',
+            ),
+            forming_and_cooking_dumplings: updateData(
+              extractData(cookingServing, 'cooking'),
+              'cooking',
+            ),
+            serving: updateData(
+              extractData(cookingServing, 'serving'),
+              'serving',
+            ),
+          },
+        }
 
-        setDumplingRecipe(newDumplingRecipe);
-        console.log('Updated Dumpling Recipe:', newDumplingRecipe);
+        setDumplingRecipe(newDumplingRecipe)
+        console.log('Updated Dumpling Recipe:', newDumplingRecipe)
       } catch (error) {
-        console.error('Error during ingredients generation:', error);
+        console.error('Error during ingredients generation:', error)
       }
-    });
-  };
+    })
+  }
 
-// TO NIŻEJ JEST OD KUBY TEMPLATKI JAKIEŚ, AKORDEON ZAKOMENTOWAŁEM BO TERAZ DANE SIE NIE ZGADZAJĄ
+  // TO NIŻEJ JEST OD KUBY TEMPLATKI JAKIEŚ, AKORDEON ZAKOMENTOWAŁEM BO TERAZ DANE SIE NIE ZGADZAJĄ
   const addDumplingAndNavigate = () => {
     startTransition(async () => {
       try {
@@ -110,6 +136,42 @@ const CreateDumpling = () => {
       serving: ['Boil dumplings', 'Serve hot'],
     },
   }
+
+  const formatIngredients = (ingredients: Ingredients) => {
+    return Object.keys(ingredients).map((category) => {
+      return (
+        <React.Fragment key={category}>
+          <h3 className={styles.sectionTitle}>{category}:</h3>
+          <ul className={styles.sectionItems}>
+            {ingredients[category as keyof Ingredients].map((item, index) => (
+              <li key={index}>{`${index + 1}. ${item.name} ${
+                item.quantity
+              }`}</li>
+            ))}
+          </ul>
+        </React.Fragment>
+      )
+    })
+  }
+
+  const formatInstructions = (
+    instructions: Instructions,
+    ...sections: string[]
+  ) => {
+    return sections.map((category) => (
+      <React.Fragment key={category}>
+        <h3 className={styles.sectionTitle}>{category.replace(/_/g, ' ')}:</h3>
+        <ul className={styles.sectionItems}>
+          {instructions[category as keyof Instructions].map((step, index) => (
+            <li key={index}>{`${index + 1}. ${step}`}</li>
+          ))}
+        </ul>
+      </React.Fragment>
+    ))
+  }
+
+  console.log(formatInstructions(dumplingRecipe.instructions))
+
   return (
     <div className={styles.container}>
       <div className={styles.headerWrapper}>
@@ -133,46 +195,42 @@ const CreateDumpling = () => {
         iconState="none"
         onChange={() => console.log('yumyum')}
       />
-{/*
 
-        <>
-          <div className={styles.accordionsWrapper}>
-            <Accordion
-              isAccordionOpen={true}
-              header={'Składniki'}
-              title1="Ciasto"
-              title2="Farsz"
-              item1={createMarkup(parsedRecipe.ingredientsDough)}
-              item2={createMarkup(parsedRecipe.ingredientsFilling)}
-            />
-            <Accordion
-              isAccordionOpen={true}
-              header={'Przygotowanie'}
-              title1="Ciasto"
-              title2="Farsz"
-              title3="Formowanie i gotowanie pierogów:"
-              item1={createMarkup(parsedRecipe.preparationDough)}
-              item2={createMarkup(parsedRecipe.preparationFilling)}
-              item3={createMarkup(parsedRecipe.cookingMethod)}
-            />
-            <div className={styles.servingWrapper}>
-              <Accordion
-                isAccordionOpen={true}
-                header={'Podawanie'}
-                title1=""
-                item1={createMarkup(parsedRecipe.servingMethod)}
-              />
-            </div>
-          </div>
-          <Button
-            variant="action"
-            onClick={addDumplingAndNavigate}
-            disabled={isPending}
-          >
-            {isPending ? "Udostępnianie...":"Udostępnij pieroga"}
-          </Button>
-        </>
-*/}
+      <>
+        <div className={styles.accordionsWrapper}>
+          <Accordion
+            isAccordionOpen={true}
+            header={'Składniki'}
+            sections={formatIngredients(dumplingRecipe.ingredients)}
+          />
+          <Accordion
+            isAccordionOpen={true}
+            header={'Przygotowanie'}
+            sections={formatInstructions(
+              dumplingRecipe.instructions,
+              'dough_preparation',
+              'filling_preparation',
+              'forming_and_cooking_dumplings',
+            )}
+          />
+
+          <Accordion
+            isAccordionOpen={true}
+            header={'Podawanie'}
+            sections={formatInstructions(
+              dumplingRecipe.instructions,
+              'serving',
+            )}
+          />
+        </div>
+        <Button
+          variant="action"
+          onClick={addDumplingAndNavigate}
+          disabled={isPending}
+        >
+          {isPending ? 'Udostępnianie...' : 'Udostępnij pieroga'}
+        </Button>
+      </>
     </div>
   )
 }

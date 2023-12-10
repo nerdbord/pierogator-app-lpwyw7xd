@@ -10,7 +10,7 @@ export async function addDumpling(payload: DumplingRecipe) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${process.env.API_KEY}`,
+          Authorization: `${process.env.API_KEY_NERDBORD}`,
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           Pragma: 'no-cache',
           Expires: '0',
