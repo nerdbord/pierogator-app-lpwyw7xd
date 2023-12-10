@@ -8,6 +8,10 @@ import BigImage from '@/components/BigImage/BigImage'
 import { getRecipe } from '@/services/actions/getRecipe/getRecipe'
 import GoBackButton from '@/components/GoBackButton/GoBackButton'
 import { DumplingRecipe } from '@/types/types'
+import {
+  ingredientsContent,
+  instructionsContent,
+} from '@/components/Accordion/AccordionContent/AccordionContent'
 
 const Dumpling = async ({ params }: { params: { id: string } }) => {
   const { recipe }: { recipe: DumplingRecipe } = await getRecipe(params.id)
@@ -26,9 +30,26 @@ const Dumpling = async ({ params }: { params: { id: string } }) => {
         <SectionHeader>Przepis</SectionHeader>
       </div>
       <div className={styles.accordionsWrapper}>
-        <Accordion header={'Składniki'} isAccordionOpen={false}/>
-        <Accordion header={'Przygotowanie'} isAccordionOpen={false}/>
-        <Accordion header={'Podawanie'} isAccordionOpen={false}/>
+        <Accordion
+          header={'Składniki'}
+          isAccordionOpen={false}
+          sections={ingredientsContent(recipe.ingredients)}
+        />
+        <Accordion
+          header={'Przygotowanie'}
+          isAccordionOpen={false}
+          sections={instructionsContent(
+            recipe.instructions,
+            'dough_preparation',
+            'filling_preparation',
+            'forming_and_cooking_dumplings',
+          )}
+        />
+        <Accordion
+          header={'Podawanie'}
+          isAccordionOpen={false}
+          sections={instructionsContent(recipe.instructions, 'serving')}
+        />
       </div>
     </div>
   )
