@@ -2,6 +2,7 @@
 interface GenerateRecipeProps {
   doughDescription: string
   ingredientsDescription: string
+  recipeComments: string
 }
 async function fetchFromAPI(prompt: string) {
   const response = await fetch(
@@ -33,7 +34,11 @@ async function fetchFromAPI(prompt: string) {
   return data.choices[0].message.content
 }
 
-export async function generateRecipe({doughDescription, ingredientsDescription}: GenerateRecipeProps) {
+export async function generateRecipe({
+  doughDescription,
+  ingredientsDescription,
+  recipeComments,
+}: GenerateRecipeProps) {
   const prompt1 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWE SKŁADNIKI PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW LOSOWE DANE TYLKO INNE NIŻ PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
   
   "ingredients": {
@@ -51,9 +56,10 @@ export async function generateRecipe({doughDescription, ingredientsDescription}:
   }
 
   TO WSZYSTKO PODAJ W POWYŻSZYM FORMACIE CZYLI JSON
+  UWZGLĘDNIJ PODANE UWAGI: ${recipeComments}
 Bez id: ${Math.floor(Math.random() * 1000)}`
 
-const prompt2 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWE PRZYGOTOWANIE CIASTA I FARSZU PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW LOSOWE DANE TYLKO INNE NIŻ PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
+  const prompt2 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWE PRZYGOTOWANIE CIASTA I FARSZU PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW LOSOWE DANE TYLKO INNE NIŻ PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
   
 "instructions": {
   "dough_preparation": [
@@ -68,9 +74,10 @@ const prompt2 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWE PRZYGOTOWANIE CIASTA I 
   ]
 
 TO WSZYSTKO PODAJ W POWYŻSZYM FORMACIE CZYLI JSON
+UWZGLĘDNIJ PODANE UWAGI: ${recipeComments}
 Bez id: ${Math.floor(Math.random() * 1000)}`
 
-const prompt3 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWY SPOSÓB FORMOWANIA I SERWOWANIA PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW SPOSOBY FORMOWANIA I SERWOWANIA TYLKO INNE NIŻ W PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
+  const prompt3 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWY SPOSÓB FORMOWANIA I SERWOWANIA PIEROGÓW, SKŁADNIKI DOWOLNE, UZUPEŁNIJ CAŁY JSON, PODSTAW SPOSOBY FORMOWANIA I SERWOWANIA TYLKO INNE NIŻ W PRZYKŁADZIE NIŻEJ, MOŻESZ SIĘ WZOROWAĆ NA OPISIE CIASTA I SKŁADNIKÓW - ${doughDescription}, ${ingredientsDescription}
 
 "instructions": { 
 "cooking": [
@@ -85,12 +92,11 @@ const prompt3 = `UTWÓRZ PIEROGI.JSON - WYŚWIETL LOSOWY SPOSÓB FORMOWANIA I SE
 ]
 
 TO WSZYSTKO PODAJ W POWYŻSZYM FORMACIE CZYLI JSON
+UWZGLĘDNIJ PODANE UWAGI: ${recipeComments}
 Bez id: ${Math.floor(Math.random() * 1000)}`
 
-
-const ingredients= await fetchFromAPI(prompt1)
-const preparation = await fetchFromAPI(prompt2)
-const cookingServing = await fetchFromAPI(prompt3)
-return { ingredients, preparation, cookingServing }
-
+  const ingredients = await fetchFromAPI(prompt1)
+  const preparation = await fetchFromAPI(prompt2)
+  const cookingServing = await fetchFromAPI(prompt3)
+  return { ingredients, preparation, cookingServing }
 }

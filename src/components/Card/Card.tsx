@@ -45,14 +45,14 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
           sizes='200px'
         />
       </div>
-      <p className={styles.name}>{item.name.length > 40 ? `${item.name.slice(0, 38)}..` : item.name}</p>
+      <p className={styles.name}>
+        {item.name.length > 40 ? `${item.name.slice(0, 38)}..` : item.name}
+      </p>
 
       {withActions && (
         <div className={styles.actions}>
           <NavigateButton url={`${AppRoutes.dumpling}/${item._id}`}>
-            
             Otwórz
-          
           </NavigateButton>
           <Button onClick={handleDelete} disabled={isPending}>
             Usuń
