@@ -51,7 +51,7 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
 
       {withActions && (
         <div className={styles.actions}>
-          <Button onClick={handleOpen}>Otwórz</Button>
+          <Button onClick={handleOpen} disabled={isPending}>Otwórz</Button>
           <Button onClick={handleDelete} disabled={isPending}>
             Usuń
           </Button>
