@@ -38,8 +38,13 @@ const CreateDumpling = () => {
     router.back()
   }
 
-  const { dumplingBase, resetBase, dumplingRecipe, setDumplingRecipe } =
-    useDumplingStore()
+  const {
+    dumplingBase,
+    resetBase,
+    dumplingRecipe,
+    setDumplingRecipe,
+    setToast,
+  } = useDumplingStore()
 
   const extractData = (apiResponse: string, key: string) => {
     const regex = new RegExp(`"${key}": \\[(.*?)\\]`, 's')
@@ -107,8 +112,10 @@ const CreateDumpling = () => {
         await addDumpling(tmpPayload)
         resetBase()
         router.push('/dumplinghub')
+        setToast({ variant: 'success', msg: 'Yeah! Pieróg dodany ❤️‍🔥' })
       } catch (error) {
         console.error('Error adding dumpling:', error)
+        setToast({ variant: 'error', msg: 'Ups! Coś poszło nie tak 😳' })
       }
     })
   }

@@ -4,6 +4,7 @@ import './globals.scss'
 import { Poppins, Barrio, Barriecito } from 'next/font/google'
 import Container from '@/components/Containers/Container/Container'
 import Head from 'next/head'
+import Toast from '@/components/Toast/Toast'
 const poppins = Poppins({
   weight: ['400', '500', '600'],
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${barrio.variable} ${barriecito.variable}`}
       >
         <Container>{children}</Container>
+        <Toast />
       </body>
     </html>
   )
