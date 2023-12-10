@@ -8,7 +8,7 @@ export async function generateName(prompt: string) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${process.env.API_KEY}`,
+          Authorization: `${process.env.API_KEY_GPT}`,
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           Pragma: 'no-cache',
           Expires: '0',
