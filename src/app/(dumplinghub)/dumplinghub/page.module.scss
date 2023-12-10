@@ -37,3 +37,16 @@
 .publicDumpling {
   cursor: pointer;
 }
+
+.loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--font-poppins);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--dark-green);
+}
