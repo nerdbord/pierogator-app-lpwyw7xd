@@ -1,13 +1,12 @@
-'use server'
+﻿'use server'
 
-export async function deleteDumpling(id: string) {
+export async function getRecipe(id: string) {
   try {
     const response = await fetch(
       `https://training.nerdbord.io/api/v1/pierogator/dumpling-recipes/${id}`,
       {
-        method: 'DELETE',
+        method: 'GET',
         headers: {
-          Authorization: `${process.env.API_KEY_NERDBORD}`,
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           Pragma: 'no-cache',
           Expires: '0',
@@ -22,7 +21,7 @@ export async function deleteDumpling(id: string) {
     const res = await response.json()
     return res
   } catch (error) {
-    console.error('Error deleting dumpling:', error)
+    console.error('Error fetching my dumplings:', error)
     throw new Error(`HTTP error! status: ${error}`)
   }
 }

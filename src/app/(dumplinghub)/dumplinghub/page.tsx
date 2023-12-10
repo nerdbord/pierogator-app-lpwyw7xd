@@ -9,20 +9,19 @@ import { getPublicDumplings } from '@/services/actions/getPublicDumplings/getPub
 import { getMyDumplings } from '@/services/actions/getMyDumplings/getMyDumplings'
 import { DumplingRecipe } from '@/types/types'
 import useDumplingStore from '@/store/useDumplingStore'
+import NavigateButton from '@/components/NavigateButton/NavigateButton'
+import { AppRoutes } from '@/utils/routes'
 
 const Dumplinghub = () => {
   const router = useRouter()
   const { refreshList } = useDumplingStore()
   const [isPending, startTransition] = useTransition()
   const [myDumplings, setMyDumplings] = useState<null | []>(null)
-  const [publicDumplings, setPublicDumplings] = useState<null | Array<DumplingRecipe>>(null)
+  const [publicDumplings, setPublicDumplings] =
+    useState<null | Array<DumplingRecipe>>(null)
 
-  const handleBackClick = () => {
-    router.push('/')
-  }
-
-  const openDumpling = (id:string | undefined) => {
-    id && router.push('/dumpling') //add route to specified dumpling
+  const openDumpling = (id: string | undefined) => {
+    id && router.push(`${AppRoutes.dumpling}/${id}`)
   }
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const Dumplinghub = () => {
   const getAllDumplings = () => {
     startTransition(async () => {
       try {
-        console.log("Loading dumplings")
+        console.log('Loading dumplings')
         setPublicDumplings(await getPublicDumplings())
         setMyDumplings(await getMyDumplings())
       } catch (error) {
@@ -40,12 +39,13 @@ const Dumplinghub = () => {
       }
     })
   }
+
   return (
     <div className={styles.container}>
       {/* My dumplings */}
       <div className={styles.headerWrapper}>
         <SectionHeader>Moje pierogi</SectionHeader>
-        <Button onClick={handleBackClick}>Nowy pieróg</Button>
+        <NavigateButton url={AppRoutes.home}>Nowy pieróg</NavigateButton>
       </div>
       <div className={styles.myDumplingsContainer}>
         {myDumplings?.map((card, index) => (
@@ -61,7 +61,11 @@ const Dumplinghub = () => {
         {publicDumplings ? (
           <>
             {publicDumplings.map((card, index) => (
-              <div key={index} onClick={()=>openDumpling(card._id)} className={styles.publicDumpling}>
+              <div
+                key={index}
+                onClick={() => openDumpling(card._id)}
+                className={styles.publicDumpling}
+              >
                 <Card item={card} imageSize="small" />
               </div>
             ))}
