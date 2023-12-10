@@ -1,5 +1,4 @@
-'use client'
-import create from 'zustand'
+import { create } from 'zustand'
 import { DumplingBase, DumplingRecipe } from '@/types/types'
 
 interface DumplingStore {
@@ -11,65 +10,70 @@ interface DumplingStore {
   setRefreshList: () => void
   resetBase: () => void
 }
+
 const LOCAL_STORAGE_KEY = 'dumplingStore'
+const isBrowser = typeof window !== 'undefined'
 
-const initBase = {
-  name: '',
-  imgUrl: '',
-  ingredients: '',
-  dough: '',
-  filling: '',
-}
-
-const getInitialState = (): DumplingStore => {
-  const savedState = localStorage.getItem(LOCAL_STORAGE_KEY)
-  return savedState
-    ? JSON.parse(savedState)
-    : {
-        refreshList: false,
-        dumplingBase: {
-          name: '',
-          imgUrl: '',
-          ingredients: '',
-          dough: '',
-          filling: '',
-        },
-        dumplingRecipe: {
-          name: '',
-          imageSrc: '',
-          ingredients: { dough: [], filling: [] },
-          instructions: {
-            dough_preparation: [],
-            filling_preparation: [],
-            forming_and_cooking_dumplings: [],
-            serving: [],
-          },
-        },
-      }
+const getSavedState = () => {
+  if (isBrowser) {
+    const savedState = localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (savedState) return JSON.parse(savedState)
+  }
+  return null
 }
 
 export const useDumplingStore = create<DumplingStore>((set) => ({
-  ...getInitialState(),
+  refreshList: false,
+  dumplingBase: {
+    name: '',
+    imgUrl: '',
+    ingredients: '',
+    dough: '',
+    filling: '',
+  },
+  dumplingRecipe: {
+    name: '',
+    imageSrc: '',
+    ingredients: { dough: [], filling: [] },
+    instructions: {
+      dough_preparation: [],
+      filling_preparation: [],
+      forming_and_cooking_dumplings: [],
+      serving: [],
+    },
+  },
+  ...getSavedState(),
   setDumplingBase: (value) =>
     set((state) => {
       const newState = { ...state, dumplingBase: value }
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState))
+      if (isBrowser) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState))
+      }
       return newState
     }),
   setDumplingRecipe: (value) =>
     set((state) => {
       const newState = { ...state, dumplingRecipe: value }
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState))
+      if (isBrowser) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState))
+      }
       return newState
     }),
   setRefreshList: () =>
-    set((state) => {
-      const newState = { ...state, refreshList: !state.refreshList }
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState))
-      return newState
+    set((state) => ({
+      ...state,
+      refreshList: !state.refreshList,
+    })),
+  resetBase: () =>
+    set({
+      dumplingBase: {
+        name: '',
+        imgUrl: '',
+        ingredients: '',
+        dough: '',
+        filling: '',
+      },
     }),
-    resetBase: () => set({ dumplingBase: initBase }),
 }))
 
 export default useDumplingStore
-
