@@ -42,6 +42,7 @@ export const Card = ({ item, withActions, imageSize }: Props) => {
           alt="Dumpling image"
           fill
           style={{ objectFit: 'cover' }}
+          sizes='200px'
         />
       </div>
       <p className={styles.name}>{item.name.length > 40 ? `${item.name.slice(0, 38)}..` : item.name}</p>
