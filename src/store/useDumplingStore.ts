@@ -49,7 +49,7 @@ export const useDumplingStore = create<DumplingStore>((set) => ({
       refreshList: !state.refreshList,
     }))
   },
-  resetBase: () => set({ dumplingBase: initBase }),
+  resetBase: () => set({ dumplingBase: initBase, dumplingRecipe: null }),
   setToast: (value) => set({ toast: value }),
 }))
 
