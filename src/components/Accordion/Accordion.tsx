@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import styles from './Accordion.module.scss'
 import { Arrow } from '../../assets/icons/Arrow/Arrow'

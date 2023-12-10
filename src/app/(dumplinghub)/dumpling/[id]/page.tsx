@@ -1,39 +1,34 @@
-﻿'use client'
-import React, { useEffect, useState } from 'react'
-import { Button } from '@/components/Button/Button'
+﻿import React from 'react'
+
 import { SectionHeader } from '@/components/SectionHeader/SectionHeader'
 import styles from './page.module.scss'
-import { useRouter } from 'next/navigation'
-import { Card } from '@/components/Card/Card'
 import TextFieldSingle from '@/components/TextFieldSingle/TextFieldSingle'
 import { Accordion } from '@/components/Accordion/Accordion'
-import { podawanie, przygotowanie, skladniki } from '@/fakeData/fakeData'
 import BigImage from '@/components/BigImage/BigImage'
+import { getRecipe } from '@/services/actions/getRecipe/getRecipe'
+import GoBackButton from '@/components/GoBackButton/GoBackButton'
+import { DumplingRecipe } from '@/types/types'
 
-const Dumpling = () => {
-  const router = useRouter()
-
-  const handleBackClick = () => {
-    router.back()
-  }
+const Dumpling = async ({ params }: { params: { id: string } }) => {
+  const { recipe }: { recipe: DumplingRecipe } = await getRecipe(params.id)
 
   return (
     <div className={styles.container}>
       <div className={styles.headerWrapper}>
-        <Button onClick={handleBackClick}>Wróć</Button>
+        <GoBackButton>Wróć</GoBackButton>
         <SectionHeader>Pieróg</SectionHeader>
       </div>
       <div className={styles.myDumplingsContainer}>
-        <BigImage src={'https://i.imgur.com/Odcmv1g.png'} />
-        <TextFieldSingle value="Pierożyn" disabled={true} />
+        <BigImage src={recipe.imageSrc} />
+        <TextFieldSingle value={recipe.name} disabled={true} />
       </div>
       <div className={styles.headerWrapperFlexEnd}>
         <SectionHeader>Przepis</SectionHeader>
       </div>
       <div className={styles.accordionsWrapper}>
-        <Accordion header={'Składniki'}/>
-        <Accordion header={'Przygotowanie'}/>
-        <Accordion header={'Podawanie'}/>
+        <Accordion header={'Składniki'} />
+        <Accordion header={'Przygotowanie'} />
+        <Accordion header={'Podawanie'} />
       </div>
     </div>
   )
