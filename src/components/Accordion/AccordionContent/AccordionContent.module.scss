@@ -1,7 +1,7 @@
 ﻿.sectionTitle {
   margin-bottom: 10px;
     color: var(--Dark-green, #002902);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
@@ -14,7 +14,7 @@
     flex-direction: column;
     gap: 10px;
     color: var(--Dark-green, #002902);
-    font-family: Poppins;
+    font-family: var(--font-poppins);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
